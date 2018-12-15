@@ -27,7 +27,8 @@
       <pubDate>Sat, 15 Dec 2018 16:43:22 +0700</pubDate>
       
       <guid>https://yudanta.github.io/posts/hello-world/</guid>
-      <description>Hello, I will keep you as my first footprint in this site</description>
+      <description>Hello, I will keep you as my first footprint in this site
+#!/usr/bin/env python print(&#39;hello-world!&#39;)  </description>
     </item>
     
   </channel>

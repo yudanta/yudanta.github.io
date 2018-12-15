@@ -6,9 +6,19 @@
     <description>Recent content in Tags on Ydn&#39;s personal blog.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Sat, 15 Dec 2018 16:43:22 +0700</lastBuildDate>
     
 	<atom:link href="https://yudanta.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Blog</title>
+      <link>https://yudanta.github.io/tags/blog/</link>
+      <pubDate>Sat, 15 Dec 2018 16:43:22 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/tags/blog/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

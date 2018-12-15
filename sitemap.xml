@@ -3,17 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://yudanta.github.io/posts/hello-world/</loc>
+    <lastmod>2018-12-15T16:43:22+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/tags/blog/</loc>
+    <lastmod>2018-12-15T16:43:22+07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://yudanta.github.io/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://yudanta.github.io/categories/personal-thoughts/</loc>
+    <lastmod>2018-12-15T16:43:22+07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/posts/</loc>
+    <lastmod>2018-12-15T16:43:22+07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://yudanta.github.io/tags/</loc>
+    <lastmod>2018-12-15T16:43:22+07:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/</loc>
+    <lastmod>2018-12-15T16:43:22+07:00</lastmod>
     <priority>0</priority>
   </url>
   

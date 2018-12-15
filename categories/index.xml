@@ -10,5 +10,14 @@
 	<atom:link href="https://yudanta.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
+    <item>
+      <title>Personal Thoughts</title>
+      <link>https://yudanta.github.io/categories/personal-thoughts/</link>
+      <pubDate>Sat, 15 Dec 2018 16:43:22 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/categories/personal-thoughts/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

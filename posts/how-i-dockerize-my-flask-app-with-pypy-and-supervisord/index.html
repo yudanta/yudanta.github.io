@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Yudanta">
+<meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
+<meta name="generator" content="Hugo 0.52" />
+<title>How I Dockerize My Flask App With Pypy and Supervisord</title>
+<link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
+<link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
+<link rel="stylesheet" href="https://yudanta.github.io/css/highlight.css">
+
+
+
+<link rel="stylesheet" href="https://yudanta.github.io/css/monosocialiconsfont.css">
+
+
+
+<link href="https://yudanta.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Ydn&#39;s personal blog." />
+
+
+<meta property="og:title" content="How I Dockerize My Flask App With Pypy and Supervisord" />
+<meta property="og:description" content="There are buch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or using UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.
+In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler) and using Gevent to handle more concurrency." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yudanta.github.io/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/" /><meta property="article:published_time" content="2018-12-19T00:21:38&#43;07:00"/>
+<meta property="article:modified_time" content="2018-12-19T00:21:38&#43;07:00"/>
+
+
+
+<meta itemprop="name" content="How I Dockerize My Flask App With Pypy and Supervisord">
+<meta itemprop="description" content="There are buch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or using UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.
+In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler) and using Gevent to handle more concurrency.">
+
+
+<meta itemprop="datePublished" content="2018-12-19T00:21:38&#43;07:00" />
+<meta itemprop="dateModified" content="2018-12-19T00:21:38&#43;07:00" />
+<meta itemprop="wordCount" content="703">
+
+
+
+<meta itemprop="keywords" content="Python,Flask,Engineering," />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How I Dockerize My Flask App With Pypy and Supervisord"/>
+<meta name="twitter:description" content="There are buch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or using UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.
+In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler) and using Gevent to handle more concurrency."/>
+<meta name="twitter:site" content="@https://twitter.com/akuyudanta/"/>
+
+
+    </head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://yudanta.github.io/'> <span class="arrow">←</span>Home</a>
+	
+
+	
+ 		<a href='/about/'>About</a>
+  	
+ 		<a href='/posts'>Posts</a>
+  	
+ 		<a href='/series'>Series</a>
+  	
+
+	
+		<a class="cta" href="https://yudanta.github.io/index.xml">Subscribe</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>How I Dockerize My Flask App With Pypy and Supervisord</h1>
+        <h2 class="subtitle"></h2>
+        <h2 class="headline">
+        December 19, 2018
+        <br>
+        
+        
+            
+                <a href="https://yudanta.github.io/tags/python">Python</a>
+            
+                <a href="https://yudanta.github.io/tags/flask">Flask</a>
+            
+                <a href="https://yudanta.github.io/tags/engineering">Engineering</a>
+            
+        
+        
+        </h2>
+    </header>
+    <section id="post-body">
+        <p>There are buch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or using UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.</p>
+
+<p>In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler) and using Gevent to handle more concurrency.</p>
+
+<p>*FYI, In my current office we are rely much on Docker as application container and ease developer with their development environment.</p>
+
+<p>Here is my Flask application structure, this is the basic directory and file structure as an application boilerplate.</p>
+
+<pre><code class="language-bash">Kinaras-MacBook-Pro:flask-pypy-docker kinara$ tree .
+.
+├── Dockerfile
+├── README.md
+├── app
+│   └── __init__.py
+├── config.py
+├── docker-compose.yml
+├── flask-gunicorn-gevent.sh
+├── nginx-conf
+│   └── lavender.conf
+├── requirements.txt
+├── run.py
+└── supervisord-conf
+    ├── lavender.ini
+    └── nginx.ini
+</code></pre>
+
+<p><strong>Flask minimum Application</strong></p>
+
+<p>For the application, We can only focused on <code>app/</code> directory and all the configs will be in <code>config.py</code></p>
+
+<pre><code class="language-python">#filename:app/__init__.py
+#!/usr/bin/env python 
+
+from datetime import datetime
+from flask import Flask, jsonify, url_for
+
+# app 
+app = Flask(__name__, instance_relative_config=True)
+
+# load config 
+app.config.from_object('config')
+app.config.from_pyfile('application.cfg', silent=True)
+
+# add default route 
+@app.route('/', methods=['GET'])
+def index():
+    response = jsonify({
+        'msg': 'Lavender',
+        'systime': int(datetime.now().strftime('%s'))
+    })
+
+    response.status_code = 200
+    return response
+</code></pre>
+
+<p>Okay, then we focused on <code>Dockerfile</code>  and <code>docker-compose.yml</code></p>
+
+<pre><code class="language-bash"># filename: Dockerfile
+
+from pypy:3-6-slim # get pypy image from dockerhub
+
+# install essential package
+run apt update 
+run apt install -y libpython3-dev build-essential libpcre3 libpcre3-dev 
+run apt install -y libssl-dev libffi-dev 
+run apt install -y nginx supervisor 
+
+# add this line to make supervisor include *.ini config file from /etc/supervisor/conf.d/
+run echo &quot;files = /etc/supervisor/conf.d/.*ini&quot; &gt;&gt; /etc/supervisor/supervisord.conf 
+
+# create user 
+ARG user=lavender
+ARG group=lavender
+ARG uid=1000
+ARG gid=1001
+RUN adduser ${user}
+
+USER ${user}
+RUN mkdir /home/${user}/src
+RUN mkdir /home/${user}/log
+
+# copy all application directory
+ADD app/ /home/${user}/src/app/
+ADD config.py /home/${user}/src/
+ADD requirements.txt /home/${user}/src/
+
+# copy gunicorn + gevent script 
+ADD flask-gunicorn-gevent.sh /home/${user}/src/
+
+USER root 
+# install requirements package
+RUN pip install -r /home/${user}/src/requirements.txt
+
+# nginx conf + supervisord conf
+ADD nginx-conf/lavender.conf /etc/nginx/conf.d/
+ADD supervisord-conf/ /etc/supervisor/conf.d/
+
+# to expose port 8001
+EXPOSE 8001
+
+# start supervisord
+CMD [&quot;supervisord&quot;, &quot;--nodaemon&quot;, &quot;-c&quot;, &quot;/etc/supervisor/supervisord.conf&quot;]
+</code></pre>
+
+<p>Also, during development process, and to ease the developer we also provide docker-compose file with auto reload flask application, so every changes in our application code will also trigger the application to reload, so no need to docker build and docker run in every changes.</p>
+
+<pre><code class="language-bash">#filename: docker-compose.yml
+version: '3'
+services: 
+  web:
+    container_name: &quot;lavender_web&quot;
+    build: .
+    volumes:
+      - .:/home/lavender/src
+    ports:
+      - 8001:8001
+    environment: 
+      - FLASK_APP=/home/lavender/src/run.py
+      - FLASK_DEBUG=1
+      - ENV=devel 
+    command: flask run --host=0.0.0.0 --port=8001 # this is where the magic of auto reload
+</code></pre>
+
+<p>We already have the application&rsquo;s files and the dockerfile, the rest are supervisor files to run gunicorn + gevent and nginx, yes we manage nginx + application service with supervisord.</p>
+
+<p>First, the bash script for running our Flask application, the script below will create a socket application and will execute gevent as application`s worker.</p>
+
+<pre><code class="language-bash">#filename: flask-gunicorn-gevent.sh
+#!/bin/sh
+gunicorn --name 'Lavender - Gunicorn' --user lavender --chdir ./ --bind unix:/home/lavender/lavender.sock app:app -k gevent --worker-connections 1001 --workers 4
+</code></pre>
+
+<p>Below, is our Nginx configuration file as proxy pass to our application socket</p>
+
+<pre><code class="language-nginx">#filename: lavender.conf
+server {
+        server_name _;
+        listen 8001;
+
+        client_max_body_size 4M;
+
+        location / {
+                include proxy_params;
+                uwsgi_param X-Real-IP $remote_addr;
+                uwsgi_param Host $http_host;
+                proxy_pass http://unix:/home/lavender/lavender.sock;
+        }
+}
+</code></pre>
+
+<p>to manage Nginx and Gunicorn process we use supervisord.</p>
+
+<pre><code class="language-ini">;flename: lavender.ini
+[program:lavender]
+command = /home/lavender/src/flask-gunicorn-gevent.sh 
+directory=/home/lavender/src/
+user=netalase
+autostart=true
+autorestart=true
+stdout_logfile=/home/lavender/log/lavender.log
+stdout_logfile_maxbytes=5MB
+stdout_logfile_backups=5
+stderr_logfile=/home/lavender/log/lavender.log
+stderr_logfile_maxbytes=5MB
+stderr_logfile_backups=5
+</code></pre>
+
+<pre><code class="language-ini">;filename: nginx.ini
+[program:nginx]
+command=/usr/sbin/nginx -g &quot;daemon off;&quot;
+autostart=true
+autorestart=true
+stdout_logfile=/home/netalase/log/nginx.log
+stdout_logfile_maxbytes=5MB
+stdout_logfile_backups=5
+stderr_logfile=/home/netalase/log/nginx.log
+stderr_logfile_maxbytes=5MB
+stderr_logfile_backups=5
+</code></pre>
+
+<p>To run our application we both can use docker-compose or Docker build then followed with docker run image.</p>
+
+<p>To run with docker compose it just as simple run with <code>docker-compose up</code> in the root directory or build with docker image</p>
+
+<pre><code class="language-bash">$ docker-compose up --build 
+# or
+$ docker build -t lavender
+$ docker run lavender
+</code></pre>
+
+<p>to access our application just <code>curl localhost:8001</code></p>
+
+<pre><code class="language-json">$ curl localhost:8001
+{
+  &quot;msg&quot;: &quot;Lavender&quot;,
+  &quot;systime&quot;: 1545639346
+}
+</code></pre>
+
+<p>The complete code of this project can be accessed on my Github repository: <a href="https://github.com/yudanta/flask-pypy-docker">https://github.com/yudanta/flask-pypy-docker</a></p>
+
+    </section>
+</article>
+
+<footer id="post-meta" class="clearfix">
+    
+    <img class="avatar" src="https://yudanta.github.io/images/avatar.png">
+    <div>
+        <span class="dark">Yudanta</span>
+        <span>Software Developer</span>
+    </div>
+    
+    <section id="sharing">
+        <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fyudanta.github.io%2fposts%2fhow-i-dockerize-my-flask-app-with-pypy-and-supervisord%2f - How%20I%20Dockerize%20My%20Flask%20App%20With%20Pypy%20and%20Supervisord "><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+    </section>
+</footer>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yudanta-github-io" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+
+    
+    
+    
+        <li>
+            <a href="/posts/hello-world/">Hello World<aside class="dates">Dec 15 2018</aside></a>
+        </li>
+    
+</ul>
+
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/yudanta/">
+        github
+    </a>
+    
+    <a class="symbol" href="https://linkedin.com/in/yudanta/">
+        linkedin
+    </a>
+    
+    <a class="symbol" href="https://twitter.com/akuyudanta/">
+        twitterbird
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2018 Yudanta
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://yudanta.github.io/js/main.js"></script>
+<script src="https://yudanta.github.io/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-45000886-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+</body>
+</html>

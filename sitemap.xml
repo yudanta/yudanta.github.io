@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://yudanta.github.io/posts/the-books-i-read-recently/</loc>
+    <lastmod>2018-12-18T18:42:53+07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://yudanta.github.io/about/</loc>
     <lastmod>2018-12-15T17:29:12+07:00</lastmod>
   </url>
@@ -19,12 +24,25 @@
   
   <url>
     <loc>https://yudanta.github.io/tags/blog/</loc>
-    <lastmod>2018-12-15T16:43:22+07:00</lastmod>
+    <lastmod>2018-12-18T18:42:53+07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/categories/books/</loc>
+    <lastmod>2018-12-18T18:42:53+07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/tags/books/</loc>
+    <lastmod>2018-12-18T18:42:53+07:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/categories/</loc>
+    <lastmod>2018-12-18T18:42:53+07:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -48,7 +66,7 @@
   
   <url>
     <loc>https://yudanta.github.io/categories/personal-thoughts/</loc>
-    <lastmod>2018-12-15T16:43:22+07:00</lastmod>
+    <lastmod>2018-12-18T18:42:53+07:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -65,13 +83,19 @@
   </url>
   
   <url>
+    <loc>https://yudanta.github.io/tags/readings/</loc>
+    <lastmod>2018-12-18T18:42:53+07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://yudanta.github.io/series/</loc>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/tags/</loc>
-    <lastmod>2018-12-15T16:43:22+07:00</lastmod>
+    <lastmod>2018-12-18T18:42:53+07:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -22,8 +22,8 @@
 
 
 <meta property="og:title" content="How I Dockerize My Flask App With Pypy and Supervisord" />
-<meta property="og:description" content="There are buch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or using UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.
-In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler) and using Gevent to handle more concurrency." />
+<meta property="og:description" content="There are bunch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or use UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.
+In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler), and use Gevent to handle more concurrency." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://yudanta.github.io/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/" /><meta property="article:published_time" content="2018-12-19T00:21:38&#43;07:00"/>
 <meta property="article:modified_time" content="2018-12-19T00:21:38&#43;07:00"/>
@@ -31,13 +31,13 @@ In this post, I will share the way I deploy my Flask application. Lately, I pref
 
 
 <meta itemprop="name" content="How I Dockerize My Flask App With Pypy and Supervisord">
-<meta itemprop="description" content="There are buch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or using UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.
-In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler) and using Gevent to handle more concurrency.">
+<meta itemprop="description" content="There are bunch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or use UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.
+In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler), and use Gevent to handle more concurrency.">
 
 
 <meta itemprop="datePublished" content="2018-12-19T00:21:38&#43;07:00" />
 <meta itemprop="dateModified" content="2018-12-19T00:21:38&#43;07:00" />
-<meta itemprop="wordCount" content="703">
+<meta itemprop="wordCount" content="707">
 
 
 
@@ -45,8 +45,8 @@ In this post, I will share the way I deploy my Flask application. Lately, I pref
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="How I Dockerize My Flask App With Pypy and Supervisord"/>
-<meta name="twitter:description" content="There are buch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or using UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.
-In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler) and using Gevent to handle more concurrency."/>
+<meta name="twitter:description" content="There are bunch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or use UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.
+In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler), and use Gevent to handle more concurrency."/>
 <meta name="twitter:site" content="@https://twitter.com/akuyudanta/"/>
 
 
@@ -94,13 +94,13 @@ In this post, I will share the way I deploy my Flask application. Lately, I pref
         </h2>
     </header>
     <section id="post-body">
-        <p>There are buch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or using UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.</p>
+        <p>There are bunch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or use UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.</p>
 
-<p>In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler) and using Gevent to handle more concurrency.</p>
+<p>In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler), and use Gevent to handle more concurrency.</p>
 
-<p>*FYI, In my current office we are rely much on Docker as application container and ease developer with their development environment.</p>
+<p>*FYI, In my current office, we rely much on Docker as the application container to ease developers with their development environment.</p>
 
-<p>Here is my Flask application structure, this is the basic directory and file structure as an application boilerplate.</p>
+<p>Here is my Flask application structure. This is the basic directory and file structure as an application boilerplate.</p>
 
 <pre><code class="language-bash">Kinaras-MacBook-Pro:flask-pypy-docker kinara$ tree .
 .
@@ -120,9 +120,9 @@ In this post, I will share the way I deploy my Flask application. Lately, I pref
     └── nginx.ini
 </code></pre>
 
-<p><strong>Flask minimum Application</strong></p>
+<p><strong>Flask Minimum Application</strong></p>
 
-<p>For the application, We can only focused on <code>app/</code> directory and all the configs will be in <code>config.py</code></p>
+<p>For the application, we can only focus on <code>app/</code> directory and all the configs will be in <code>config.py</code></p>
 
 <pre><code class="language-python">#filename:app/__init__.py
 #!/usr/bin/env python 
@@ -149,7 +149,7 @@ def index():
     return response
 </code></pre>
 
-<p>Okay, then we focused on <code>Dockerfile</code>  and <code>docker-compose.yml</code></p>
+<p>Okay, then we focus on <code>Dockerfile</code>  and <code>docker-compose.yml</code></p>
 
 <pre><code class="language-bash"># filename: Dockerfile
 
@@ -198,7 +198,7 @@ EXPOSE 8001
 CMD [&quot;supervisord&quot;, &quot;--nodaemon&quot;, &quot;-c&quot;, &quot;/etc/supervisor/supervisord.conf&quot;]
 </code></pre>
 
-<p>Also, during development process, and to ease the developer we also provide docker-compose file with auto reload flask application, so every changes in our application code will also trigger the application to reload, so no need to docker build and docker run in every changes.</p>
+<p>Also, during development process, and to ease the developers, we also provide docker-compose file with auto reload flask application, so all changes in our application code will also trigger the application to reload. So, there&rsquo;s no need to docker build and docker run in every change.</p>
 
 <pre><code class="language-bash">#filename: docker-compose.yml
 version: '3'
@@ -217,16 +217,16 @@ services:
     command: flask run --host=0.0.0.0 --port=8001 # this is where the magic of auto reload
 </code></pre>
 
-<p>We already have the application&rsquo;s files and the dockerfile, the rest are supervisor files to run gunicorn + gevent and nginx, yes we manage nginx + application service with supervisord.</p>
+<p>We&rsquo;ve already had the application&rsquo;s files and the dockerfile, the rest are supervisor files to run gunicorn + gevent and nginx. Yes, we manage nginx + application service with supervisord.</p>
 
-<p>First, the bash script for running our Flask application, the script below will create a socket application and will execute gevent as application`s worker.</p>
+<p>First, here is the bash script to run our Flask application. The script below will create a socket application and will execute gevent as application`s worker.</p>
 
 <pre><code class="language-bash">#filename: flask-gunicorn-gevent.sh
 #!/bin/sh
 gunicorn --name 'Lavender - Gunicorn' --user lavender --chdir ./ --bind unix:/home/lavender/lavender.sock app:app -k gevent --worker-connections 1001 --workers 4
 </code></pre>
 
-<p>Below, is our Nginx configuration file as proxy pass to our application socket</p>
+<p>Below, is our Nginx configuration file as a proxy pass to our application socket</p>
 
 <pre><code class="language-nginx">#filename: lavender.conf
 server {
@@ -244,7 +244,7 @@ server {
 }
 </code></pre>
 
-<p>to manage Nginx and Gunicorn process we use supervisord.</p>
+<p>to manage Nginx and Gunicorn process, we use supervisord.</p>
 
 <pre><code class="language-ini">;flename: lavender.ini
 [program:lavender]
@@ -274,9 +274,9 @@ stderr_logfile_maxbytes=5MB
 stderr_logfile_backups=5
 </code></pre>
 
-<p>To run our application we both can use docker-compose or Docker build then followed with docker run image.</p>
+<p>To run our application, we can use either docker-compose or Docker build, then followed with docker run image.</p>
 
-<p>To run with docker compose it just as simple run with <code>docker-compose up</code> in the root directory or build with docker image</p>
+<p>To run with docker compose, it is just simple by typing <code>docker-compose up</code> in the root directory or building with docker image</p>
 
 <pre><code class="language-bash">$ docker-compose up --build 
 # or
@@ -346,6 +346,10 @@ $ docker run lavender
 
     
     
+    
+        <li>
+            <a href="/posts/the-books-i-read-recently/">The Books I Read Recently<aside class="dates">Dec 18 2018</aside></a>
+        </li>
     
         <li>
             <a href="/posts/hello-world/">Hello World<aside class="dates">Dec 15 2018</aside></a>

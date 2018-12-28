@@ -17,8 +17,8 @@
       <pubDate>Wed, 19 Dec 2018 00:21:38 +0700</pubDate>
       
       <guid>https://yudanta.github.io/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/</guid>
-      <description>There are buch of ways how to deploy your Flask application, it can be directly with Flask&amp;rsquo;s built in http server or using UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.
-In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler) and using Gevent to handle more concurrency.</description>
+      <description>There are bunch of ways how to deploy your Flask application, it can be directly with Flask&amp;rsquo;s built in http server or use UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.
+In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler), and use Gevent to handle more concurrency.</description>
     </item>
     
   </channel>

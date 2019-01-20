@@ -6,10 +6,19 @@
     <description>Recent content on Ydn&#39;s personal blog.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 19 Dec 2018 00:21:38 +0700</lastBuildDate>
+    <lastBuildDate>Fri, 11 Jan 2019 19:20:23 +0700</lastBuildDate>
     
 	<atom:link href="https://yudanta.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Nvidia Docker and Docker Compose Enabled</title>
+      <link>https://yudanta.github.io/posts/nvidia-docker-and-docker-compose-enabled/</link>
+      <pubDate>Fri, 11 Jan 2019 19:20:23 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/posts/nvidia-docker-and-docker-compose-enabled/</guid>
+      <description>Recently, I rely much on docker. Almost all of my projects already dockerised and it working flawlessly. The main reason of using docker is because it&amp;rsquo;s easy to maintain and isolated, not make your host OS dirty with tons of files and dependencies. And, since I am working closely with my coleague at the office we use docker as part of our workflow. Sharing projects, doing CI/CD and releasing updates to our Kubernetes cluster never as easy and seamless like this before.</description>
+    </item>
     
     <item>
       <title>How I Dockerize My Flask App With Pypy and Supervisord</title>
@@ -38,8 +47,10 @@ In this post, I will share the way I deploy my Flask application. Lately, I pref
       <pubDate>Sat, 15 Dec 2018 17:29:12 +0700</pubDate>
       
       <guid>https://yudanta.github.io/about/</guid>
-      <description>Hello, my name is Yudanta. I am a software developer based in Indonesia who have big interest in Natural Language Processing and Deep Learning. I speak with Python almost in everyday basis, sometimes Java, Elixir and used to with PHP.
-&amp;hellip;</description>
+      <description>Hello, my name is Yudanta. I am a software developer based in Indonesia who have big interest in Data Processing, Natural Language Technology, Machine Learning and everything in between.
+I speak with Python almost in everyday basis, sometimes Java, Elixir and used to with PHP.
+ Say hi to me[at]yudanta[dot]web[dot]id
+ &amp;hellip;</description>
     </item>
     
     <item>

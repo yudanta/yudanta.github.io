@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nvidia Docker on Ydn&#39;s personal blog.</title>
+    <link>https://yudanta.github.io/tags/nvidia-docker/</link>
+    <description>Recent content in Nvidia Docker on Ydn&#39;s personal blog.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 11 Jan 2019 19:20:23 +0700</lastBuildDate>
+    
+	<atom:link href="https://yudanta.github.io/tags/nvidia-docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Nvidia Docker and Docker Compose Enabled</title>
+      <link>https://yudanta.github.io/posts/nvidia-docker-and-docker-compose-enabled/</link>
+      <pubDate>Fri, 11 Jan 2019 19:20:23 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/posts/nvidia-docker-and-docker-compose-enabled/</guid>
+      <description>Recently, I rely much on docker. Almost all of my projects already dockerised and it working flawlessly. The main reason of using docker is because it&amp;rsquo;s easy to maintain and isolated, not make your host OS dirty with tons of files and dependencies. And, since I am working closely with my coleague at the office we use docker as part of our workflow. Sharing projects, doing CI/CD and releasing updates to our Kubernetes cluster never as easy and seamless like this before.</description>
+    </item>
+    
+  </channel>
+</rss>

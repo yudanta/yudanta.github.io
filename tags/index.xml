@@ -30,6 +30,15 @@
     </item>
     
     <item>
+      <title>Docker</title>
+      <link>https://yudanta.github.io/tags/docker/</link>
+      <pubDate>Fri, 11 Jan 2019 19:20:23 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Engineering</title>
       <link>https://yudanta.github.io/tags/engineering/</link>
       <pubDate>Wed, 19 Dec 2018 00:21:38 +0700</pubDate>
@@ -48,6 +57,15 @@
     </item>
     
     <item>
+      <title>Nvidia Docker</title>
+      <link>https://yudanta.github.io/tags/nvidia-docker/</link>
+      <pubDate>Fri, 11 Jan 2019 19:20:23 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/tags/nvidia-docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Python</title>
       <link>https://yudanta.github.io/tags/python/</link>
       <pubDate>Wed, 19 Dec 2018 00:21:38 +0700</pubDate>
@@ -62,6 +80,15 @@
       <pubDate>Tue, 18 Dec 2018 18:42:53 +0700</pubDate>
       
       <guid>https://yudanta.github.io/tags/readings/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tensorflow Gpu</title>
+      <link>https://yudanta.github.io/tags/tensorflow-gpu/</link>
+      <pubDate>Fri, 11 Jan 2019 19:20:23 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/tags/tensorflow-gpu/</guid>
       <description></description>
     </item>
     

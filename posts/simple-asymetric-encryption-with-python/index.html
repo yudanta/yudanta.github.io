@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Yudanta">
+<meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
+<meta name="generator" content="Hugo 0.74.3" />
+<title>Simple Asymetric Encryption With Python</title>
+<link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
+<link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
+<link rel="stylesheet" href="https://yudanta.github.io/css/highlight.css">
+
+
+
+<link rel="stylesheet" href="https://yudanta.github.io/css/monosocialiconsfont.css">
+
+
+
+<link href="https://yudanta.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Ydn&#39;s personal blog." />
+
+
+<meta property="og:title" content="Simple Asymetric Encryption With Python" />
+<meta property="og:description" content="So, first of all, this is just a snippet for those who courious and wants to know about asymetric encryption using private and public key to securing your data or communication. As we know, end to end encryption is very popular right now such as in your private messaging application (Whatsapp or Telegram), it is non deniable, one of our way to securing our communication in digital era.
+The concept is very simmple, both parties are generating two kind of keys, one is private and one is public." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yudanta.github.io/posts/simple-asymetric-encryption-with-python/" />
+<meta property="article:published_time" content="2020-09-14T12:55:59+07:00" />
+<meta property="article:modified_time" content="2020-09-14T12:55:59+07:00" />
+
+
+<meta itemprop="name" content="Simple Asymetric Encryption With Python">
+<meta itemprop="description" content="So, first of all, this is just a snippet for those who courious and wants to know about asymetric encryption using private and public key to securing your data or communication. As we know, end to end encryption is very popular right now such as in your private messaging application (Whatsapp or Telegram), it is non deniable, one of our way to securing our communication in digital era.
+The concept is very simmple, both parties are generating two kind of keys, one is private and one is public.">
+<meta itemprop="datePublished" content="2020-09-14T12:55:59+07:00" />
+<meta itemprop="dateModified" content="2020-09-14T12:55:59+07:00" />
+<meta itemprop="wordCount" content="545">
+
+
+
+<meta itemprop="keywords" content="" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Simple Asymetric Encryption With Python"/>
+<meta name="twitter:description" content="So, first of all, this is just a snippet for those who courious and wants to know about asymetric encryption using private and public key to securing your data or communication. As we know, end to end encryption is very popular right now such as in your private messaging application (Whatsapp or Telegram), it is non deniable, one of our way to securing our communication in digital era.
+The concept is very simmple, both parties are generating two kind of keys, one is private and one is public."/>
+<meta name="twitter:site" content="@https://twitter.com/akuyudanta/"/>
+
+
+    </head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://yudanta.github.io/'> <span class="arrow">←</span>Home</a>
+	
+
+	
+ 		<a href='/about/'>About</a>
+  	
+ 		<a href='/posts'>Posts</a>
+  	
+ 		<a href='/series'>Series</a>
+  	
+
+	
+		<a class="cta" href="https://yudanta.github.io/index.xml">Subscribe</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>Simple Asymetric Encryption With Python</h1>
+        <h2 class="subtitle"></h2>
+        <h2 class="headline">
+        September 14, 2020
+        <br>
+        
+        </h2>
+    </header>
+    <section id="post-body">
+        <p>So, first of all, this is just a snippet for those who courious and wants to know about asymetric encryption using private and public key to securing your data or communication. As we know, end to end encryption is very popular right now such as in your private messaging application (Whatsapp or Telegram), it is non deniable, one of our way to securing our communication in digital era.</p>
+<p>The concept is very simmple, both parties are generating two kind of keys, one is private and one is public. the private key must be kept secret because this can be used for decrypting your encrypted data which are encrypted with your public key. So, in every communication you send your public key to everyone else, then, they are encrypting their sensitive data for you with your shared public key and become gibberish&hellip; the encrypted data then can be reversed to plain format with your secret key, thats it!</p>
+<p>Below, simple PoC of above description with <code>Python</code> and <code>cryptography</code> library</p>
+<ol>
+<li>
+<p>Installing <code>cryptography</code> library</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install cryptography
+</code></pre></div></li>
+<li>
+<p>Generating keys (private and public)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"> <span style="color:#75715e">#import necessary package</span>
+ <span style="color:#f92672">import</span> cryptography
+ <span style="color:#f92672">from</span> cryptography.hazmat.backends <span style="color:#f92672">import</span> default_backend
+ <span style="color:#f92672">from</span> cryptography.hazmat.primitives.asymmetric <span style="color:#f92672">import</span> rsa
+ <span style="color:#f92672">from</span> cryptography.hazmat.primitives <span style="color:#f92672">import</span> serialization
+
+ <span style="color:#75715e"># generating privae key </span>
+ private_key <span style="color:#f92672">=</span> rsa<span style="color:#f92672">.</span>generate_private_key(
+     public_exponent<span style="color:#f92672">=</span><span style="color:#ae81ff">65537</span>,
+     key_size<span style="color:#f92672">=</span><span style="color:#ae81ff">2048</span>,
+     backend<span style="color:#f92672">=</span>default_backend()
+     )
+
+ <span style="color:#75715e"># generating public key</span>
+ public_key <span style="color:#f92672">=</span> private_key<span style="color:#f92672">.</span>public_key()
+
+ <span style="color:#75715e"># saving private and public key to file</span>
+ serial_private <span style="color:#f92672">=</span> private_key<span style="color:#f92672">.</span>private_bytes(
+     encoding<span style="color:#f92672">=</span>serialization<span style="color:#f92672">.</span>Encoding<span style="color:#f92672">.</span>PEM, 
+     format<span style="color:#f92672">=</span>serialization<span style="color:#f92672">.</span>PrivateFormat<span style="color:#f92672">.</span>PKCS8, 
+     encryption_algorithm<span style="color:#f92672">=</span>serialization<span style="color:#f92672">.</span>NoEncryption()
+     )
+
+ <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;private_key.pem&#34;</span>, <span style="color:#e6db74">&#34;wb&#34;</span>) <span style="color:#66d9ef">as</span> f:
+     f<span style="color:#f92672">.</span>write(serial_private)
+
+ serial_pub <span style="color:#f92672">=</span> public_key<span style="color:#f92672">.</span>public_bytes(
+     encoding<span style="color:#f92672">=</span>serialization<span style="color:#f92672">.</span>Encoding<span style="color:#f92672">.</span>PEM,
+     format<span style="color:#f92672">=</span>serialization<span style="color:#f92672">.</span>PublicFormat<span style="color:#f92672">.</span>SubjectPublicKeyInfo
+     )
+
+ <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;public_key.pem&#34;</span>, <span style="color:#e6db74">&#34;wb&#34;</span>) <span style="color:#66d9ef">as</span> f:
+     f<span style="color:#f92672">.</span>write(serial_pub)
+</code></pre></div><p>Now, have two files of keys, <code>public_key.pem</code> and <code>private_key.pm</code></p>
+</li>
+<li>
+<p>Encrypting plain text with public key</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># to encrypt plain text we need to open public key and hash text with this public key</span>
+<span style="color:#75715e"># imports</span>
+<span style="color:#f92672">import</span> cryptography
+<span style="color:#f92672">from</span> cryptography.hazmat.backends <span style="color:#f92672">import</span> default_backend
+<span style="color:#f92672">from</span> cryptography.hazmat.primitives.asymmetric <span style="color:#f92672">import</span> rsa
+<span style="color:#f92672">from</span> cryptography.hazmat.primitives <span style="color:#f92672">import</span> serialization
+<span style="color:#f92672">from</span> cryptography.hazmat.primitives <span style="color:#f92672">import</span> hashes
+<span style="color:#f92672">from</span> cryptography.hazmat.primitives.asymmetric <span style="color:#f92672">import</span> padding
+
+key_file <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#39;public_key.pem&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>)
+   
+<span style="color:#75715e"># load public key </span>
+public_key <span style="color:#f92672">=</span> serialization<span style="color:#f92672">.</span>load_pem_public_key(
+    key_file<span style="color:#f92672">.</span>read(),
+    backend <span style="color:#f92672">=</span> default_backend()
+    )
+
+ <span style="color:#75715e"># plain text </span>
+ plain_text <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;Only you can read this...&#34;</span> <span style="color:#75715e"># must in bytes format</span>
+
+ <span style="color:#75715e"># encrypting plain text </span>
+ encrypted <span style="color:#f92672">=</span> public_key<span style="color:#f92672">.</span>encrypt(
+     plain_text,
+     padding<span style="color:#f92672">.</span>OAEP(
+         mgf<span style="color:#f92672">=</span>padding<span style="color:#f92672">.</span>MGF1(algorithm<span style="color:#f92672">=</span>hashes<span style="color:#f92672">.</span>SHA256()),
+         algorithm<span style="color:#f92672">=</span>hashes<span style="color:#f92672">.</span>SHA256(),
+         label<span style="color:#f92672">=</span>None
+         )
+     )
+    
+ <span style="color:#75715e"># write encrypted content to file</span>
+ <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;encrypted_content.txt&#34;</span>, <span style="color:#e6db74">&#34;wb&#34;</span>) <span style="color:#66d9ef">as</span> f:
+     f<span style="color:#f92672">.</span>write(encrypted)
+</code></pre></div><p>there you go, now you have your message encrypted and stored into a file called <code>encrypted_content.txt</code> and if we try to read the content</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat encrypted_content.txt
+-------------------------
+
+ bx,ˆ˝2?ÉËæ˙êõè·¥Ë°cŒ‰ ÉÒx&amp;P&gt;<span style="color:#f92672">]</span>§x|¥<span style="color:#f92672">]</span>‡¶<span style="color:#e6db74">&#39;6%¬ë„á’&#39;</span>»≥<span style="color:#f92672">=</span>ùì4i‚8aöÒ‘3ë∞
+ ¯qîmm_€¥‘∏fRä‚Ñ™∏ùw¸Ñ#Õîg÷“:–g´åa9N<span style="color:#f92672">[</span>ôœÀöÂÆt∂ßj29¡±pD‚™v<span style="color:#f92672">]</span>$ˇﬁF–≥ê ≤E<span style="color:#f92672">}</span>®^Ÿ‘è¿òsúq‡…°4Oçrî8<span style="color:#f92672">]</span>~õ¥ßN;”<span style="color:#f92672">{</span>˜Ÿbc9u!›ÃfÌ<span style="color:#f92672">{</span>≈KÎgÎ›<span style="color:#e6db74">`</span>∆aπ∑ùsF±I˜ç÷ÿ?ä∆¬÷&amp;Öà“§ΩM∫‹LKwi⁄O¥$ˇπ“›ß?ïCLŒ“˙ŒÊÁE
+</code></pre></div><p>you will have gibberish text, and yes it works!</p>
+</li>
+<li>
+<p>Decrypting encrypted data to plain format with private key</p>
+<p>Now, let say if someone give you an encrypted message which are encrypted with your own public key, supposed to be you are the only one who can reversed it back because you have the private key right? then how to reverse the encrypted message? you can follow this script below</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># ... import packages same as above</span>
+
+<span style="color:#75715e"># load private key file </span>
+key_file <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#39;private_key.pem&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>)
+
+private_key <span style="color:#f92672">=</span> serialization<span style="color:#f92672">.</span>load_pem_private_key(
+    key_file<span style="color:#f92672">.</span>read(),
+    password<span style="color:#f92672">=</span>None,
+    backend<span style="color:#f92672">=</span>default_backend()
+    )
+
+<span style="color:#75715e"># open encrypted file</span>
+encrypted_text <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;encrypted_content&#34;</span>, <span style="color:#e6db74">&#34;rb&#34;</span>)<span style="color:#f92672">.</span>read()
+
+<span style="color:#75715e"># decrypt file </span>
+plain_text <span style="color:#f92672">=</span> private_key<span style="color:#f92672">.</span>decrypt(
+    encrypted_text,
+    padding<span style="color:#f92672">.</span>OAEP(
+        mgf<span style="color:#f92672">=</span>padding<span style="color:#f92672">.</span>MGF1(algorithm<span style="color:#f92672">=</span>hashes<span style="color:#f92672">.</span>SHA256()),
+        algorithm<span style="color:#f92672">=</span>hashes<span style="color:#f92672">.</span>SHA256(),
+        label<span style="color:#f92672">=</span>None
+     )
+ )
+
+ <span style="color:#66d9ef">print</span>(plain_text)
+ <span style="color:#75715e">## this should produce your plain non encrypted text</span>
+ <span style="color:#75715e">#Only you can read this...</span>
+</code></pre></div></li>
+</ol>
+<p>thats all, for your notes, this asymetric encryption has their own limits in encryption size, you can read them on library documentation.</p>
+
+    </section>
+</article>
+
+<footer id="post-meta" class="clearfix">
+    
+    <img class="avatar" src="https://yudanta.github.io/images/avatar.png">
+    <div>
+        <span class="dark">Yudanta</span>
+        <span>Developer, Data Processing, Natural Language Processing, and everything in between.</span>
+    </div>
+    
+    <section id="sharing">
+        <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fyudanta.github.io%2fposts%2fsimple-asymetric-encryption-with-python%2f - Simple%20Asymetric%20Encryption%20With%20Python "><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+    </section>
+</footer>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yudanta-github-io" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+
+    
+    
+    
+        <li>
+            <a href="/posts/nvidia-docker-and-docker-compose-enabled/">Nvidia Docker and Docker Compose Enabled<aside class="dates">Jan 11 2019</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/flask-mongoengine-multiple-databases-with-alias/">Flask Mongoengine, Multiple Databases With Alias<aside class="dates">Jan 11 2019</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/">How I Dockerize My Flask App With Pypy and Supervisord<aside class="dates">Dec 19 2018</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/the-books-i-read-recently/">The Books I Read Recently<aside class="dates">Dec 18 2018</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/hello-world/">Hello World<aside class="dates">Dec 15 2018</aside></a>
+        </li>
+    
+</ul>
+
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/yudanta/">
+        github
+    </a>
+    
+    <a class="symbol" href="https://linkedin.com/in/yudanta/">
+        linkedin
+    </a>
+    
+    <a class="symbol" href="https://twitter.com/akuyudanta/">
+        twitterbird
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2020 Yudanta
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://yudanta.github.io/js/main.js"></script>
+<script src="https://yudanta.github.io/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-45000886-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+</body>
+</html>

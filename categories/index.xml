@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Ydn&#39;s personal blog.</title>
@@ -6,19 +6,10 @@
     <description>Recent content in Categories on Ydn&#39;s personal blog.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 18 Dec 2018 18:42:53 +0700</lastBuildDate>
+    <lastBuildDate>Fri, 11 Jan 2019 19:20:23 +0700</lastBuildDate>
     
 	<atom:link href="https://yudanta.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Books</title>
-      <link>https://yudanta.github.io/categories/books/</link>
-      <pubDate>Tue, 18 Dec 2018 18:42:53 +0700</pubDate>
-      
-      <guid>https://yudanta.github.io/categories/books/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>Engineering</title>
@@ -26,6 +17,15 @@
       <pubDate>Fri, 11 Jan 2019 19:20:23 +0700</pubDate>
       
       <guid>https://yudanta.github.io/categories/engineering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Books</title>
+      <link>https://yudanta.github.io/categories/books/</link>
+      <pubDate>Tue, 18 Dec 2018 18:42:53 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/categories/books/</guid>
       <description></description>
     </item>
     

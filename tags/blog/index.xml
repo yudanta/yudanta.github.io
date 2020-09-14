@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blog on Ydn&#39;s personal blog.</title>
+    <title>blog on Ydn&#39;s personal blog.</title>
     <link>https://yudanta.github.io/tags/blog/</link>
-    <description>Recent content in Blog on Ydn&#39;s personal blog.</description>
+    <description>Recent content in blog on Ydn&#39;s personal blog.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 18 Dec 2018 18:42:53 +0700</lastBuildDate>
@@ -19,7 +19,7 @@
       <guid>https://yudanta.github.io/posts/the-books-i-read-recently/</guid>
       <description>To be honest, I am not kind of such a book worm nor a book enthusiast. I read books occasionaly, when I am tired in front of my computers or I want to refresh my mind for a while. At the end of this year, I want to share my thoughts related to some books which I have read during this year.
 &amp;lsquo;Origin&amp;rsquo; written by Dan Brown
- I read Dan Brown&amp;rsquo;s works since Digital Fortress.</description>
+I read Dan Brown&amp;rsquo;s works since Digital Fortress.</description>
     </item>
     
     <item>
@@ -29,7 +29,7 @@
       
       <guid>https://yudanta.github.io/posts/hello-world/</guid>
       <description>Hello, I will keep you as my first footprint in this site
-#!/usr/bin/env python print(&#39;hello-world!&#39;)  </description>
+#!/usr/bin/env python  print(&amp;#39;hello-world!&amp;#39;) </description>
     </item>
     
   </channel>

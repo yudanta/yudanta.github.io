@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yudanta">
 <meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
-<meta name="generator" content="Hugo 0.53" />
+<meta name="generator" content="Hugo 0.74.3" />
 <title>Nvidia Docker and Docker Compose Enabled</title>
 <link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
 <link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
@@ -24,17 +24,15 @@
 <meta property="og:title" content="Nvidia Docker and Docker Compose Enabled" />
 <meta property="og:description" content="Recently, I rely much on docker. Almost all of my projects already dockerised and it working flawlessly. The main reason of using docker is because it&rsquo;s easy to maintain and isolated, not make your host OS dirty with tons of files and dependencies. And, since I am working closely with my coleague at the office we use docker as part of our workflow. Sharing projects, doing CI/CD and releasing updates to our Kubernetes cluster never as easy and seamless like this before." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://yudanta.github.io/posts/nvidia-docker-and-docker-compose-enabled/" /><meta property="article:published_time" content="2019-01-11T19:20:23&#43;07:00"/>
-<meta property="article:modified_time" content="2019-01-11T19:20:23&#43;07:00"/>
-
+<meta property="og:url" content="https://yudanta.github.io/posts/nvidia-docker-and-docker-compose-enabled/" />
+<meta property="article:published_time" content="2019-01-11T19:20:23+07:00" />
+<meta property="article:modified_time" content="2019-01-11T19:20:23+07:00" />
 
 
 <meta itemprop="name" content="Nvidia Docker and Docker Compose Enabled">
 <meta itemprop="description" content="Recently, I rely much on docker. Almost all of my projects already dockerised and it working flawlessly. The main reason of using docker is because it&rsquo;s easy to maintain and isolated, not make your host OS dirty with tons of files and dependencies. And, since I am working closely with my coleague at the office we use docker as part of our workflow. Sharing projects, doing CI/CD and releasing updates to our Kubernetes cluster never as easy and seamless like this before.">
-
-
-<meta itemprop="datePublished" content="2019-01-11T19:20:23&#43;07:00" />
-<meta itemprop="dateModified" content="2019-01-11T19:20:23&#43;07:00" />
+<meta itemprop="datePublished" content="2019-01-11T19:20:23+07:00" />
+<meta itemprop="dateModified" content="2019-01-11T19:20:23+07:00" />
 <meta itemprop="wordCount" content="690">
 
 
@@ -92,121 +90,88 @@
     </header>
     <section id="post-body">
         <p>Recently, I rely much on docker. Almost all of my projects already dockerised and it working flawlessly. The main reason of using docker is because it&rsquo;s easy to maintain and isolated, not make your host OS dirty with tons of files and dependencies.  And, since I am working closely with my coleague at the office we use docker as part of our workflow. Sharing projects, doing CI/CD and releasing updates to our Kubernetes cluster never as easy and seamless like this before.</p>
-
 <p>The project which is not dockerised yet is the deep learning project. This project covers my own workspace (it is a jupyter with gpu support) and tensorflow-serving for no deploy my deep learning model in production. The reason of why I am not dockerised my deep learning project is because of the dependency of GPU support back then. However, NVIDIA provides nvidia-docker which have full support to GPU (as long as the driver are installed correctly), isolation of individual devices (like me who has 2 GTX 1070ti from office&rsquo;s GPU RIG) and ease of deplyment.</p>
-
 <p>Here is the way I implement the nvidia-docker 2 with docker-compose for my deep learning workspace.</p>
-
 <p>First, make sure you already install NVIDIA driver and it&rsquo;s working properly by checking with <code>nvidia-smi</code> command, this is my GPU for example</p>
-
-<pre><code class="language-bash">habsari@box:~$ nvidia-smi
-Sun Jan 20 15:47:35 2019
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">habsari@box:~$ nvidia-smi
+Sun Jan <span style="color:#ae81ff">20</span> 15:47:35 <span style="color:#ae81ff">2019</span>
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 390.87                 Driver Version: 390.87                    |
 |-------------------------------+----------------------+----------------------+
 | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
 | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|===============================+======================+======================|
-|   0  GeForce GTX 107...  Off  | 00000000:01:00.0 Off |                  N/A |
+|<span style="color:#f92672">===============================</span>+<span style="color:#f92672">======================</span>+<span style="color:#f92672">======================</span>|
+|   <span style="color:#ae81ff">0</span>  GeForce GTX 107...  Off  | 00000000:01:00.0 Off |                  N/A |
 |  0%   52C    P0    39W / 180W |      0MiB /  8117MiB |      0%      Default |
 +-------------------------------+----------------------+----------------------+
-|   1  GeForce GTX 107...  Off  | 00000000:02:00.0 Off |                  N/A |
+|   <span style="color:#ae81ff">1</span>  GeForce GTX 107...  Off  | 00000000:02:00.0 Off |                  N/A |
 |  0%   53C    P0    40W / 180W |      0MiB /  8119MiB |      0%      Default |
 +-------------------------------+----------------------+----------------------+
 
 +-----------------------------------------------------------------------------+
 | Processes:                                                       GPU Memory |
 |  GPU       PID   Type   Process name                             Usage      |
-|=============================================================================|
+|<span style="color:#f92672">=============================================================================</span>|
 |  No running processes found                                                 |
 +-----------------------------------------------------------------------------+
-</code></pre>
-
-<p>Second, we can now install nvidia-docker2, if you have previous version of docker you might to uninstall it first. To install nvidia-docker2 just follow steps from readme.md file in nvidia-docker github page.</p>
-
-<pre><code class="language-bash"># Add the package repositories
-curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
-  sudo apt-key add -
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \
-  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+</code></pre></div><p>Second, we can now install nvidia-docker2, if you have previous version of docker you might to uninstall it first. To install nvidia-docker2 just follow steps from readme.md file in nvidia-docker github page.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Add the package repositories</span>
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  sudo apt-key add -
+distribution<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>. /etc/os-release;echo $ID$VERSION_ID<span style="color:#66d9ef">)</span>
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
 sudo apt-get update
-</code></pre>
-
-<pre><code class="language-bash"># Install nvidia-docker2 and reload the Docker daemon configuration
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Install nvidia-docker2 and reload the Docker daemon configuration</span>
 sudo apt-get install -y nvidia-docker2
 sudo pkill -SIGHUP dockerd
-</code></pre>
+</code></pre></div><p>And, to check is nvidia-docker successfully installed</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Test nvidia-smi with the latest official CUDA image</span>
+docker run --runtime<span style="color:#f92672">=</span>nvidia --rm nvidia/cuda:9.0-base nvidia-smi
+</code></pre></div><p>Third, we want to install docker-compose and add some configuration to make it support with nvidia-docker runtime. Since I am more comfortable working with docker-compose while using docker.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># downloading latest version of docker compose</span>
+sudo curl -L <span style="color:#e6db74">&#34;https://github.com/docker/compose/releases/download/1.23.2/docker-compose-</span><span style="color:#66d9ef">$(</span>uname -s<span style="color:#66d9ef">)</span><span style="color:#e6db74">-</span><span style="color:#66d9ef">$(</span>uname -m<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> -o /usr/local/bin/docker-compose
 
-<p>And, to check is nvidia-docker successfully installed</p>
-
-<pre><code class="language-bash"># Test nvidia-smi with the latest official CUDA image
-docker run --runtime=nvidia --rm nvidia/cuda:9.0-base nvidia-smi
-</code></pre>
-
-<p>Third, we want to install docker-compose and add some configuration to make it support with nvidia-docker runtime. Since I am more comfortable working with docker-compose while using docker.</p>
-
-<pre><code class="language-bash"># downloading latest version of docker compose
-sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose
-
-# add executable permission to docker-compose binary
+<span style="color:#75715e"># add executable permission to docker-compose binary</span>
 sudo chmod +x /usr/local/bin/docker-compose
 
-# add symbolic link 
+<span style="color:#75715e"># add symbolic link</span> 
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-</code></pre>
-
-<p>Test docker compose:</p>
-
-<pre><code class="language-bash">habsari@box:~$ docker-compose --version
+</code></pre></div><p>Test docker compose:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">habsari@box:~$ docker-compose --version
 docker-compose version 1.17.1, build unknown
-</code></pre>
-
-<p>To use docker-compose with nvidia-docker, we need to update docker <code>daemon.json</code> config file so docker-compose will use nvidia as default runtime. We simply just need to add <code>&quot;default-runtime&quot;: &quot;nvidia&quot;</code> in /etc/docker/daemon.json</p>
-
-<pre><code class="language-bash"># filename: /etc/docker/daemon.json
-{
-    &quot;default-runtime&quot;: &quot;nvidia&quot;,
-    &quot;runtimes&quot;: {
-        &quot;nvidia&quot;: {
-            &quot;path&quot;: &quot;nvidia-container-runtime&quot;,
-            &quot;runtimeArgs&quot;: []
-        }
-    }
-}
-</code></pre>
-
-<p>lastly, do not forget to restart our docker daemon.</p>
-
-<pre><code class="language-bash">sudo pkill -SIGHUP dockerd
-</code></pre>
-
-<p>Now, we can create a <code>Dockerfile</code> and <code>docker-compose.yml</code> file to kick start our deep learning environment using Tensorflow-GPU and Jupyter.</p>
-
-<pre><code class="language-bash"># filename: Dockerfile
+</code></pre></div><p>To use docker-compose with nvidia-docker, we need to update docker <code>daemon.json</code> config file so docker-compose will use nvidia as default runtime. We simply just need to add <code>&quot;default-runtime&quot;: &quot;nvidia&quot;</code> in /etc/docker/daemon.json</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># filename: /etc/docker/daemon.json</span>
+<span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;default-runtime&#34;</span>: <span style="color:#e6db74">&#34;nvidia&#34;</span>,
+    <span style="color:#e6db74">&#34;runtimes&#34;</span>: <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;nvidia&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;nvidia-container-runtime&#34;</span>,
+            <span style="color:#e6db74">&#34;runtimeArgs&#34;</span>: <span style="color:#f92672">[]</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>lastly, do not forget to restart our docker daemon.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo pkill -SIGHUP dockerd
+</code></pre></div><p>Now, we can create a <code>Dockerfile</code> and <code>docker-compose.yml</code> file to kick start our deep learning environment using Tensorflow-GPU and Jupyter.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># filename: Dockerfile</span>
 FROM tensorflow/tensorflow:latest-gpu-py3
-</code></pre>
-
-<pre><code class="language-bash"># filename: docker-compose.yml
-version: '2'
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># filename: docker-compose.yml</span>
+version: <span style="color:#e6db74">&#39;2&#39;</span>
 services:
   jupyter:
     restart: always
-    container_name: 'garfield_gpu'
+    container_name: <span style="color:#e6db74">&#39;garfield_gpu&#39;</span>
     build: .
     volumes:
-      - ./workdir:/notebooks # notebook directory
+      - ./workdir:/notebooks <span style="color:#75715e"># notebook directory</span>
     ports:
-      - 8888:8888 # exposed port for jupyter
+      - 8888:8888 <span style="color:#75715e"># exposed port for jupyter</span>
     environment:
-      - NVIDIA_VISIBLE_DEVICES=0 # which gpu do you want to use for this container
-      - PASSWORD=yourstrongpassword
-</code></pre>
-
-<p>Last, do not forget to create <code>workdir</code> directory for jupyter persistent storage.</p>
-
+      - NVIDIA_VISIBLE_DEVICES<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> <span style="color:#75715e"># which gpu do you want to use for this container</span>
+      - PASSWORD<span style="color:#f92672">=</span>yourstrongpassword
+</code></pre></div><p>Last, do not forget to create <code>workdir</code> directory for jupyter persistent storage.</p>
 <p>To run the container just type: <code>docker-compose up --build</code>, to access your jupyter navigate your browser to localhost:8888 and log in with your jupyter password.</p>
-
 <p>The detail of docker`s files of this project can be accessed in my repository: <a href="https://github.com/yudanta/jupyter-tf-gpu-docker">https://github.com/yudanta/jupyter-tf-gpu-docker</a></p>
 
     </section>
@@ -262,6 +227,10 @@ services:
     
     
         <li>
+            <a href="/posts/flask-mongoengine-multiple-databases-with-alias/">Flask Mongoengine, Multiple Databases With Alias<aside class="dates">Jan 11 2019</aside></a>
+        </li>
+    
+        <li>
             <a href="/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/">How I Dockerize My Flask App With Pypy and Supervisord<aside class="dates">Dec 19 2018</aside></a>
         </li>
     
@@ -303,7 +272,7 @@ services:
     
     <p class="small">
     
-        © Copyright 2019 Yudanta
+        © Copyright 2020 Yudanta
     
     </p>
 </footer>

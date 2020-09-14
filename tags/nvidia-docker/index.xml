@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Nvidia Docker on Ydn&#39;s personal blog.</title>
+    <title>nvidia-docker on Ydn&#39;s personal blog.</title>
     <link>https://yudanta.github.io/tags/nvidia-docker/</link>
-    <description>Recent content in Nvidia Docker on Ydn&#39;s personal blog.</description>
+    <description>Recent content in nvidia-docker on Ydn&#39;s personal blog.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 11 Jan 2019 19:20:23 +0700</lastBuildDate>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ydn&#39;s personal blog.</title>
@@ -21,6 +21,16 @@
     </item>
     
     <item>
+      <title>Flask Mongoengine, Multiple Databases With Alias</title>
+      <link>https://yudanta.github.io/posts/flask-mongoengine-multiple-databases-with-alias/</link>
+      <pubDate>Fri, 11 Jan 2019 19:19:08 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/posts/flask-mongoengine-multiple-databases-with-alias/</guid>
+      <description>It&amp;rsquo;s common in some occasions our applications are consuming and storing data from two or more MongoDB databases, and if you are using Mongoengine as your database abstraction you are lucky enough that Mongoengine is capable to accessing multiple database without hassle, refering this documentation: http://docs.mongoengine.org/guide/connecting.html?highlight=alias#multiple-databases, we can connecting to multiple database and using alias or db_alias
+Now, for accessing multiple database with Flask and Flask-Mongoengine, first define the database connection info and credentials in our flask config file config.</description>
+    </item>
+    
+    <item>
       <title>How I Dockerize My Flask App With Pypy and Supervisord</title>
       <link>https://yudanta.github.io/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/</link>
       <pubDate>Wed, 19 Dec 2018 00:21:38 +0700</pubDate>
@@ -38,7 +48,7 @@ In this post, I will share the way I deploy my Flask application. Lately, I pref
       <guid>https://yudanta.github.io/posts/the-books-i-read-recently/</guid>
       <description>To be honest, I am not kind of such a book worm nor a book enthusiast. I read books occasionaly, when I am tired in front of my computers or I want to refresh my mind for a while. At the end of this year, I want to share my thoughts related to some books which I have read during this year.
 &amp;lsquo;Origin&amp;rsquo; written by Dan Brown
- I read Dan Brown&amp;rsquo;s works since Digital Fortress.</description>
+I read Dan Brown&amp;rsquo;s works since Digital Fortress.</description>
     </item>
     
     <item>
@@ -50,6 +60,7 @@ In this post, I will share the way I deploy my Flask application. Lately, I pref
       <description>Hello, my name is Yudanta. I am a software developer based in Indonesia who have big interest in Data Processing, Natural Language Technology, Machine Learning and everything in between.
 I speak with Python almost in everyday basis, sometimes Java, Elixir and used to with PHP.
  Say hi to me[at]yudanta[dot]web[dot]id
+or visiting my github: https://github.com/yudanta
  &amp;hellip;</description>
     </item>
     
@@ -60,7 +71,7 @@ I speak with Python almost in everyday basis, sometimes Java, Elixir and used to
       
       <guid>https://yudanta.github.io/posts/hello-world/</guid>
       <description>Hello, I will keep you as my first footprint in this site
-#!/usr/bin/env python print(&#39;hello-world!&#39;)  </description>
+#!/usr/bin/env python  print(&amp;#39;hello-world!&amp;#39;) </description>
     </item>
     
   </channel>

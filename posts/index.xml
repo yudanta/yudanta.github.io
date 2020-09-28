@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Ydn&#39;s personal blog.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Sep 2020 12:55:59 +0700</lastBuildDate>
+    <lastBuildDate>Sun, 27 Sep 2020 22:36:58 +0700</lastBuildDate>
     
 	<atom:link href="https://yudanta.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Series 1 LSTM Gender Classification Tensorflow</title>
+      <link>https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/</link>
+      <pubDate>Sun, 27 Sep 2020 22:36:58 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/</guid>
+      <description>Hello&amp;hellip; this post will be part of a serial posts about how we using deep learning approach for simple text classification model, starting from training the model until serving the model into &amp;ldquo;production ready&amp;rdquo; application with TensorflowServing or Flask. This series posts will be divided into 3 posts, the first one is preparing and training our simple model to recognize a gender based on name.
+Lets say we want a model for our application needs to predict user&amp;rsquo;s gender based on their name, so at first we have a datasets a pair of name and gender in .</description>
+    </item>
     
     <item>
       <title>Simple Asymetric Encryption With Python</title>

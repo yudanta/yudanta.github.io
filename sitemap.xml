@@ -3,17 +3,32 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://yudanta.github.io/posts/</loc>
-    <lastmod>2020-09-14T12:55:59+07:00</lastmod>
+    <loc>https://yudanta.github.io/series/nlp/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://yudanta.github.io/posts/simple-asymetric-encryption-with-python/</loc>
-    <lastmod>2020-09-14T12:55:59+07:00</lastmod>
+    <loc>https://yudanta.github.io/posts/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/series/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/posts/simple-asymetric-encryption-with-python/</loc>
     <lastmod>2020-09-14T12:55:59+07:00</lastmod>
   </url>
   
@@ -115,10 +130,6 @@
   <url>
     <loc>https://yudanta.github.io/posts/hello-world/</loc>
     <lastmod>2018-12-15T16:43:22+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://yudanta.github.io/series/</loc>
   </url>
   
 </urlset>

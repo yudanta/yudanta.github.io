@@ -3,7 +3,32 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://yudanta.github.io/categories/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/categories/engineering/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/tags/lstm/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/tags/nlp/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://yudanta.github.io/series/nlp/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/categories/nlp/</loc>
     <lastmod>2020-09-27T22:36:58+07:00</lastmod>
   </url>
   
@@ -23,8 +48,33 @@
   </url>
   
   <url>
+    <loc>https://yudanta.github.io/tags/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/tags/tensorflow/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/tags/text-classification/</loc>
+    <lastmod>2020-09-27T22:36:58+07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://yudanta.github.io/</loc>
     <lastmod>2020-09-27T22:36:58+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/tags/asymetric-encryption/</loc>
+    <lastmod>2020-09-14T12:55:59+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/tags/python/</loc>
+    <lastmod>2020-09-14T12:55:59+07:00</lastmod>
   </url>
   
   <url>
@@ -33,17 +83,7 @@
   </url>
   
   <url>
-    <loc>https://yudanta.github.io/categories/</loc>
-    <lastmod>2019-01-11T19:20:23+07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://yudanta.github.io/tags/docker/</loc>
-    <lastmod>2019-01-11T19:20:23+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://yudanta.github.io/categories/engineering/</loc>
     <lastmod>2019-01-11T19:20:23+07:00</lastmod>
   </url>
   
@@ -58,17 +98,22 @@
   </url>
   
   <url>
-    <loc>https://yudanta.github.io/tags/</loc>
-    <lastmod>2019-01-11T19:20:23+07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://yudanta.github.io/tags/tensorflow-gpu/</loc>
     <lastmod>2019-01-11T19:20:23+07:00</lastmod>
   </url>
   
   <url>
+    <loc>https://yudanta.github.io/tags/flask/</loc>
+    <lastmod>2019-01-11T19:19:08+07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://yudanta.github.io/posts/flask-mongoengine-multiple-databases-with-alias/</loc>
+    <lastmod>2019-01-11T19:19:08+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/tags/mongoengine/</loc>
     <lastmod>2019-01-11T19:19:08+07:00</lastmod>
   </url>
   
@@ -78,17 +123,7 @@
   </url>
   
   <url>
-    <loc>https://yudanta.github.io/tags/flask/</loc>
-    <lastmod>2018-12-19T00:21:38+07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://yudanta.github.io/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/</loc>
-    <lastmod>2018-12-19T00:21:38+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://yudanta.github.io/tags/python/</loc>
     <lastmod>2018-12-19T00:21:38+07:00</lastmod>
   </url>
   

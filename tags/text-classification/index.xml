@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Text Classification on Ydn&#39;s personal blog.</title>
+    <link>https://yudanta.github.io/tags/text-classification/</link>
+    <description>Recent content in Text Classification on Ydn&#39;s personal blog.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 01 Oct 2020 14:17:47 +0700</lastBuildDate>
+    
+	<atom:link href="https://yudanta.github.io/tags/text-classification/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Series 2 Exporting LSTM Gender Classification and Serving With Tensorflowserving</title>
+      <link>https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/</link>
+      <pubDate>Thu, 01 Oct 2020 14:17:47 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/</guid>
+      <description>So this is the second part of the series, in the previous part we successfully train our model and test the model directly from trained model instance. in this part we will export the model and serve the model with tensorflow serving so it can be accessed with REST api or gRPC endpoints, in short you can serve your model like in production, so others can performing request to ask a gender prediction to your model.</description>
+    </item>
+    
+    <item>
+      <title>Series 1 LSTM Gender Classification Tensorflow</title>
+      <link>https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/</link>
+      <pubDate>Sun, 27 Sep 2020 22:36:58 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/</guid>
+      <description>Hello&amp;hellip; this post will be part of a serial posts about how we using deep learning approach for simple text classification model, starting from training the model until serving the model into &amp;ldquo;production ready&amp;rdquo; application with TensorflowServing or Flask. This series posts will be divided into 3 posts, the first one is preparing and training our simple model to recognize a gender based on name.
+Lets say we want a model for our application needs to predict user&amp;rsquo;s gender based on their name, so at first we have a datasets a pair of name and gender in .</description>
+    </item>
+    
+  </channel>
+</rss>

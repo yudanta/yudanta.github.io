@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MongoEngine on Ydn&#39;s personal blog.</title>
+    <link>https://yudanta.github.io/tags/mongoengine/</link>
+    <description>Recent content in MongoEngine on Ydn&#39;s personal blog.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 11 Jan 2019 19:19:08 +0700</lastBuildDate>
+    
+	<atom:link href="https://yudanta.github.io/tags/mongoengine/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Flask Mongoengine, Multiple Databases With Alias</title>
+      <link>https://yudanta.github.io/posts/flask-mongoengine-multiple-databases-with-alias/</link>
+      <pubDate>Fri, 11 Jan 2019 19:19:08 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/posts/flask-mongoengine-multiple-databases-with-alias/</guid>
+      <description>It&amp;rsquo;s common in some occasions our applications are consuming and storing data from two or more MongoDB databases, and if you are using Mongoengine as your database abstraction you are lucky enough that Mongoengine is capable to accessing multiple database without hassle, refering this documentation: http://docs.mongoengine.org/guide/connecting.html?highlight=alias#multiple-databases, we can connecting to multiple database and using alias or db_alias
+Now, for accessing multiple database with Flask and Flask-Mongoengine, first define the database connection info and credentials in our flask config file config.</description>
+    </item>
+    
+  </channel>
+</rss>

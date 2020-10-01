@@ -6,10 +6,19 @@
     <description>Recent content on Ydn&#39;s personal blog.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 27 Sep 2020 22:36:58 +0700</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2020 14:17:47 +0700</lastBuildDate>
     
 	<atom:link href="https://yudanta.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Series 2 Exporting LSTM Gender Classification and Serving With Tensorflowserving</title>
+      <link>https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/</link>
+      <pubDate>Thu, 01 Oct 2020 14:17:47 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/</guid>
+      <description>So this is the second part of the series, in the previous part we successfully train our model and test the model directly from trained model instance. in this part we will export the model and serve the model with tensorflow serving so it can be accessed with REST api or gRPC endpoints, in short you can serve your model like in production, so others can performing request to ask a gender prediction to your model.</description>
+    </item>
     
     <item>
       <title>Series 1 LSTM Gender Classification Tensorflow</title>

@@ -4,66 +4,71 @@
   
   <url>
     <loc>https://yudanta.github.io/categories/</loc>
-    <lastmod>2020-10-01T14:17:47+07:00</lastmod>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/categories/engineering/</loc>
-    <lastmod>2020-10-01T14:17:47+07:00</lastmod>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/tags/lstm/</loc>
-    <lastmod>2020-10-01T14:17:47+07:00</lastmod>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/tags/nlp/</loc>
-    <lastmod>2020-10-01T14:17:47+07:00</lastmod>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/series/nlp/</loc>
-    <lastmod>2020-10-01T14:17:47+07:00</lastmod>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/categories/nlp/</loc>
-    <lastmod>2020-10-01T14:17:47+07:00</lastmod>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/posts/</loc>
-    <lastmod>2020-10-01T14:17:47+07:00</lastmod>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/series/</loc>
-    <lastmod>2020-10-01T14:17:47+07:00</lastmod>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/</loc>
-    <lastmod>2020-10-01T14:17:47+07:00</lastmod>
+    <loc>https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/</loc>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/tags/</loc>
-    <lastmod>2020-10-01T14:17:47+07:00</lastmod>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/tags/tensorflow/</loc>
-    <lastmod>2020-10-01T14:17:47+07:00</lastmod>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/tags/text-classification/</loc>
-    <lastmod>2020-10-01T14:17:47+07:00</lastmod>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://yudanta.github.io/</loc>
+    <lastmod>2020-10-12T22:38:16+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/</loc>
     <lastmod>2020-10-01T14:17:47+07:00</lastmod>
   </url>
   

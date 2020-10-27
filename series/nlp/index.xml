@@ -6,10 +6,20 @@
     <description>Recent content in NLP on Ydn&#39;s personal blog.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Oct 2020 22:38:16 +0700</lastBuildDate>
+    <lastBuildDate>Mon, 26 Oct 2020 23:23:57 +0700</lastBuildDate>
     
 	<atom:link href="https://yudanta.github.io/series/nlp/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Train an Indonesian NER From a Blank SpaCy Model</title>
+      <link>https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/</link>
+      <pubDate>Mon, 26 Oct 2020 23:23:57 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/</guid>
+      <description>So, how we train a Named Entity Recognition model in SpaCy using our own dataset? long story short, though the title is in English, but this time I will write the story in Indonesian, since the model is an Indonesian Named Entity Recognition.
+Jadi&amp;hellip; bagi yang ingin bikin model untuk keperluan &amp;ldquo;sequence-tagging&amp;rdquo; seperti Ekstraksi Entitas dan Pengenalan Entitas, maka biar tidak pusing atau pusing dengan bikin model pakai stack LSTM atau LSTM+CRF seperti kebanyakan yang ada di tutorial-tutorial itu, apalagi pakai embedding kaya word2vec dan glove dan bert fang femes itu kan overkill&amp;hellip; dan tentunya bakal lama, ya to ya?</description>
+    </item>
     
     <item>
       <title>Series 3 Exporting LSTM Gender Classification and Serving With Flask</title>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Yudanta">
+<meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
+<meta name="generator" content="Hugo 0.74.3" />
+<title>Train an Indonesian NER From a Blank SpaCy Model</title>
+<link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
+<link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
+<link rel="stylesheet" href="https://yudanta.github.io/css/highlight.css">
+
+
+
+<link rel="stylesheet" href="https://yudanta.github.io/css/monosocialiconsfont.css">
+
+
+
+<link href="https://yudanta.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Ydn&#39;s personal blog." />
+
+
+<meta property="og:title" content="Train an Indonesian NER From a Blank SpaCy Model" />
+<meta property="og:description" content="So, how we train a Named Entity Recognition model in SpaCy using our own dataset? long story short, though the title is in English, but this time I will write the story in Indonesian, since the model is an Indonesian Named Entity Recognition.
+Jadi&hellip; bagi yang ingin bikin model untuk keperluan &ldquo;sequence-tagging&rdquo; seperti Ekstraksi Entitas dan Pengenalan Entitas, maka biar tidak pusing atau pusing dengan bikin model pakai stack LSTM atau LSTM&#43;CRF seperti kebanyakan yang ada di tutorial-tutorial itu, apalagi pakai embedding kaya word2vec dan glove dan bert fang femes itu kan overkill&hellip; dan tentunya bakal lama, ya to ya?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" />
+<meta property="article:published_time" content="2020-10-26T23:23:57+07:00" />
+<meta property="article:modified_time" content="2020-10-26T23:23:57+07:00" />
+
+
+
+<meta itemprop="name" content="Train an Indonesian NER From a Blank SpaCy Model">
+<meta itemprop="description" content="So, how we train a Named Entity Recognition model in SpaCy using our own dataset? long story short, though the title is in English, but this time I will write the story in Indonesian, since the model is an Indonesian Named Entity Recognition.
+Jadi&hellip; bagi yang ingin bikin model untuk keperluan &ldquo;sequence-tagging&rdquo; seperti Ekstraksi Entitas dan Pengenalan Entitas, maka biar tidak pusing atau pusing dengan bikin model pakai stack LSTM atau LSTM&#43;CRF seperti kebanyakan yang ada di tutorial-tutorial itu, apalagi pakai embedding kaya word2vec dan glove dan bert fang femes itu kan overkill&hellip; dan tentunya bakal lama, ya to ya?">
+<meta itemprop="datePublished" content="2020-10-26T23:23:57+07:00" />
+<meta itemprop="dateModified" content="2020-10-26T23:23:57+07:00" />
+<meta itemprop="wordCount" content="826">
+
+
+
+<meta itemprop="keywords" content="SpaCy,NER,NLP," />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Train an Indonesian NER From a Blank SpaCy Model"/>
+<meta name="twitter:description" content="So, how we train a Named Entity Recognition model in SpaCy using our own dataset? long story short, though the title is in English, but this time I will write the story in Indonesian, since the model is an Indonesian Named Entity Recognition.
+Jadi&hellip; bagi yang ingin bikin model untuk keperluan &ldquo;sequence-tagging&rdquo; seperti Ekstraksi Entitas dan Pengenalan Entitas, maka biar tidak pusing atau pusing dengan bikin model pakai stack LSTM atau LSTM&#43;CRF seperti kebanyakan yang ada di tutorial-tutorial itu, apalagi pakai embedding kaya word2vec dan glove dan bert fang femes itu kan overkill&hellip; dan tentunya bakal lama, ya to ya?"/>
+<meta name="twitter:site" content="@https://twitter.com/akuyudanta/"/>
+
+
+    </head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://yudanta.github.io/'> <span class="arrow">←</span>Home</a>
+	
+
+	
+ 		<a href='/about/'>About</a>
+  	
+ 		<a href='/posts'>Posts</a>
+  	
+ 		<a href='/series'>Series</a>
+  	
+
+	
+		<a class="cta" href="https://yudanta.github.io/index.xml">Subscribe</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>Train an Indonesian NER From a Blank SpaCy Model</h1>
+        <h2 class="subtitle"></h2>
+        <h2 class="headline">
+        October 26, 2020
+        <br>
+        
+        
+            
+                <a href="https://yudanta.github.io/tags/spacy">SpaCy</a>
+            
+                <a href="https://yudanta.github.io/tags/ner">NER</a>
+            
+                <a href="https://yudanta.github.io/tags/nlp">NLP</a>
+            
+        
+        
+        </h2>
+    </header>
+    <section id="post-body">
+        <p>So, how we train a Named Entity Recognition model in SpaCy using our own dataset? long story short, though the title is in English, but this time I will write the story in Indonesian, since the model is an Indonesian Named Entity Recognition.</p>
+<p>Jadi&hellip; bagi yang ingin bikin model untuk keperluan &ldquo;sequence-tagging&rdquo; seperti Ekstraksi Entitas dan Pengenalan Entitas, maka biar tidak pusing atau pusing dengan bikin model pakai stack LSTM atau LSTM+CRF seperti kebanyakan yang ada di tutorial-tutorial itu, apalagi pakai embedding kaya word2vec dan glove dan bert fang femes itu kan overkill&hellip; dan tentunya bakal lama, ya to ya?</p>
+<p>Nah ada yang namanya SpaCy, jadi SpaCy ini pustaka perangkat lunak untuk NLP dari explosion.ai, sudah menyediakan &ldquo;stacks&rdquo; seperti kebutuhan pre-proses, tokenisasi, lematisasi, klasifikasi dan lain-lain termasuk ekstraksi entitas. Detail informasi terkait SpaCy bisa dilihat dan dipelajari laman resmi SpaCy. Sampai saat ini, SpaCy belum merilis pre-train model untuk bahasa Indonesia secara resmi, namun tetap kita bisa melakukan fine-tuning atau training model dengan data yang kita miliki, singkatnya cukup siapkan data dengan format yang sesuai tinggal train beberapa iterasi, bisa dipakai.</p>
+<p>Kali ini, akan ditulis mengenai instruksi singkat untuk men-train model Ekstrasi dan Pengenalan Entitas dengan SpaCy, untuk dataset saya mendapatkan data dari sini: <a href="https://raw.githubusercontent.com/yusufsyaifudin/indonesia-ner/master/resources/ner/data_train.txt">https://raw.githubusercontent.com/yusufsyaifudin/indonesia-ner/master/resources/ner/data_train.txt</a> dan sini: <a href="https://raw.githubusercontent.com/yohanesgultom/nlp-experiments/master/data/ner/training_data.txt">https://raw.githubusercontent.com/yohanesgultom/nlp-experiments/master/data/ner/training_data.txt</a> matur nuwun maaase&hellip;</p>
+<p>Data tersebut saya convert ke SpaCy format sehingga berformat seperti ini:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(<span style="color:#e6db74">&#39;Menurut Arie jika Aburizal terus memaksakan kehendaknya, bukan tidak mungkin Golkar akan menyusul Partai Persatuan Pembangunan yang terpecah karena konflik internal.&#39;</span>, {<span style="color:#e6db74">&#39;entities&#39;</span>: [(<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">12</span>, <span style="color:#e6db74">&#39;PERSON&#39;</span>), (<span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">26</span>, <span style="color:#e6db74">&#39;PERSON&#39;</span>), (<span style="color:#ae81ff">77</span>, <span style="color:#ae81ff">83</span>, <span style="color:#e6db74">&#39;ORGANIZATION&#39;</span>), (<span style="color:#ae81ff">98</span>, <span style="color:#ae81ff">126</span>, <span style="color:#e6db74">&#39;ORGANIZATION&#39;</span>)]})
+</code></pre></div><p>artinya, karakter dari indeks ke 18 hingga 26 merupakan kata yang mengandung Entitas dengan tipe PERSON, karakter indeks ke 77 hingga 83 mengandung Entitas dengan tipe Organisasi, begitu seterusnya.</p>
+<p>Pertama, kita panggil terlebih dahulu pustaka-pustaka yang dibutuhkan dan data pembelajaran yang sudah kita persiapkan sebelumnya:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pickle
+<span style="color:#f92672">import</span> spacy
+<span style="color:#f92672">import</span> random
+<span style="color:#f92672">from</span> spacy.util <span style="color:#f92672">import</span> minibatch, compounding
+<span style="color:#f92672">from</span> spacy <span style="color:#f92672">import</span> load, displacy
+</code></pre></div><p>Pemanggilan data pembelajaran</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;ner_spacy_fmt_datasets.pickle&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+    ner_spacy_fmt_datasets <span style="color:#f92672">=</span> pickle<span style="color:#f92672">.</span>load(f)
+</code></pre></div><p>Selanjutnya kita akan buat model dari &ldquo;model kosong&rdquo; atau &ldquo;blank-model&rdquo; dengan perintah berikut</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">nlp<span style="color:#f92672">=</span>spacy<span style="color:#f92672">.</span>blank(<span style="color:#e6db74">&#34;id&#34;</span>)
+
+nlp<span style="color:#f92672">.</span>add_pipe(nlp<span style="color:#f92672">.</span>create_pipe(<span style="color:#e6db74">&#39;ner&#39;</span>))
+
+nlp<span style="color:#f92672">.</span>begin_training()
+</code></pre></div><p>Kita ambil data-modul untuk NER dan menyisihkan yang lainnya.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ner<span style="color:#f92672">=</span>nlp<span style="color:#f92672">.</span>get_pipe(<span style="color:#e6db74">&#34;ner&#34;</span>)
+
+pipe_exceptions <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;ner&#34;</span>, <span style="color:#e6db74">&#34;trf_wordpiecer&#34;</span>, <span style="color:#e6db74">&#34;trf_tok2vec&#34;</span>]
+
+unaffected_pipes <span style="color:#f92672">=</span> [pipe <span style="color:#66d9ef">for</span> pipe <span style="color:#f92672">in</span> nlp<span style="color:#f92672">.</span>pipe_names <span style="color:#66d9ef">if</span> pipe <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> pipe_exceptions]
+</code></pre></div><p>Kita proses atau ambil label tipe entitas dari data training</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> _, annotations <span style="color:#f92672">in</span> ner_spacy_fmt_datasets:
+    <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> annotations<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;entities&#34;</span>):
+        ner<span style="color:#f92672">.</span>add_label(ent[<span style="color:#ae81ff">2</span>])
+        <span style="color:#66d9ef">break</span>
+</code></pre></div><p>Untuk data train akan kita random terlebih dahulu baru kemudian kita masukkan ke iterasi training, pada contoh ini kita coba untuk latih model sebanyak 30 kali perulangan.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># TRAINING THE MODEL</span>
+<span style="color:#66d9ef">with</span> nlp<span style="color:#f92672">.</span>disable_pipes(<span style="color:#f92672">*</span>unaffected_pipes):
+
+  <span style="color:#75715e"># Training for 30 iterations</span>
+  <span style="color:#66d9ef">for</span> iteration <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">30</span>):
+
+    <span style="color:#75715e"># shuufling examples  before every iteration</span>
+    random<span style="color:#f92672">.</span>shuffle(ner_spacy_fmt_datasets)
+    losses <span style="color:#f92672">=</span> {}
+    <span style="color:#75715e"># batch up the examples using spaCy&#39;s minibatch</span>
+    batches <span style="color:#f92672">=</span> minibatch(ner_spacy_fmt_datasets, size<span style="color:#f92672">=</span>compounding(<span style="color:#ae81ff">4.0</span>, <span style="color:#ae81ff">32.0</span>, <span style="color:#ae81ff">1.001</span>))
+    <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> batches:
+        texts, annotations <span style="color:#f92672">=</span> zip(<span style="color:#f92672">*</span>batch)
+        nlp<span style="color:#f92672">.</span>update(
+                    texts,  <span style="color:#75715e"># batch of texts</span>
+                    annotations,  <span style="color:#75715e"># batch of annotations</span>
+                    drop<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>,  <span style="color:#75715e"># dropout - make it harder to memorise data</span>
+                    losses<span style="color:#f92672">=</span>losses,
+                )
+    
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Losses at iteration {}&#34;</span><span style="color:#f92672">.</span>format(iteration), losses)
+</code></pre></div><p>Setelah proses pembelajaran model selesai, untuk mencoba model yang telah kita latih dapat menggunakan kode berikut.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># test </span>
+doc <span style="color:#f92672">=</span> nlp(<span style="color:#e6db74">&#34;SELUBUNG yang menyelimuti kasus penembakan yang menewaskan Pendeta Yeremia Zanambani di Kabupaten Intan Jaya, Papua kian terkuak. Hasil investigasi Tim Gabungan Pencari Fakta (TGPF) kasus tersebut menyatakan bahwa penembakan di Intan Jaya diduga dilakukan oleh aparat keamanan.&#34;</span>)
+
+<span style="color:#66d9ef">print</span>(doc<span style="color:#f92672">.</span>ents)
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Entities&#34;</span>, [(ent<span style="color:#f92672">.</span>text, ent<span style="color:#f92672">.</span>label_) <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> doc<span style="color:#f92672">.</span>ents])
+
+<span style="color:#75715e"># output </span>
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">(SELUBUNG, Pendeta Yeremia Zanambani, Kabupaten Intan, Gabungan Pencari Fakta (TGPF, Intan Jaya)
+</span><span style="color:#e6db74">Entities [(&#39;SELUBUNG&#39;, &#39;ORGANIZATION&#39;), (&#39;Pendeta Yeremia Zanambani&#39;, &#39;PERSON&#39;), (&#39;Kabupaten Intan&#39;, &#39;LOCATION&#39;), (&#39;Gabungan Pencari Fakta (TGPF&#39;, &#39;ORGANIZATION&#39;), (&#39;Intan Jaya&#39;, &#39;LOCATION&#39;)]
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</code></pre></div><p>Nah, agar supaya nantinya tidak melulu melatih ketika akan digunakan, model yang sudah kita latih dapat kita simpan untuk digunakan di waktu yang akan datang.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pathlib <span style="color:#f92672">import</span> Path
+
+output_dir <span style="color:#f92672">=</span> Path(<span style="color:#e6db74">&#39;nlp_id_checkpoint_2020_10_26&#39;</span>)
+nlp<span style="color:#f92672">.</span>to_disk(output_dir)
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Saved model to&#34;</span>, output_dir)
+</code></pre></div><p>Apabila kita telah memiliki model yang telah kita latih sebelumnya, untuk memuat ulang dan menggunakan model tersebut dapat dengan cara seperti di bawah ini</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># load existing model </span>
+output_dir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;nlp_id_checkpoint_2020_10_26&#39;</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Loading from&#34;</span>, output_dir)
+nlp_updated <span style="color:#f92672">=</span> spacy<span style="color:#f92672">.</span>load(output_dir)
+
+</code></pre></div><p>Pengujian dengan model yang kita muat ulang</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># contoh 1</span>
+doc <span style="color:#f92672">=</span> nlp_updated(<span style="color:#e6db74">&#34;Kementerian Perhubungan tidak mewajibkan rapid test COVID-19 untuk perjalanan darat lintas daerah, kecuali untuk tujuan Bali. Termasuk, dalam periode cuti bersama.&#34;</span> )
+
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Entities&#34;</span>, [(ent<span style="color:#f92672">.</span>text, ent<span style="color:#f92672">.</span>label_) <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> doc<span style="color:#f92672">.</span>ents])
+
+displacy<span style="color:#f92672">.</span>render(doc, style<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ent&#34;</span>)
+
+<span style="color:#75715e"># contoh 2</span>
+doc <span style="color:#f92672">=</span> nlp_updated(<span style="color:#e6db74">&#34;Empat saksi terkait korupsi proyek infrastruktur fiktif yang dikerjakan PT Waskita Karya (Persero) Tbk absen dari panggilan KPK hari ini. Seorang di antaranya mantan Bupati Wakatobi, Hugua.&#34;</span> )
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Entities&#34;</span>, [(ent<span style="color:#f92672">.</span>text, ent<span style="color:#f92672">.</span>label_) <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> doc<span style="color:#f92672">.</span>ents])
+
+displacy<span style="color:#f92672">.</span>render(doc, style<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ent&#34;</span>)
+</code></pre></div><p>Dengan demikian kita sudah memiliki sebuah model yang dapat digunakan untuk melakukan tugas Ekstraksi dan Pengenalan Entitas khusus untuk teks berbahasa Indonesia.</p>
+<p>Kira-kira begitu saja ya&hellip; biar tidak kebanyakan seperti akan menulis karya tulis atau tugas akhir perkuliahan, untuk kode, &ldquo;notebook&rdquo; interaktif dan dataset bisa dilihat kembali secara utuh di gudang kode berbasis kontrol versi di pranala berikut ini: <a href="https://github.com/yudanta/indonesia-ner-spacy">https://github.com/yudanta/indonesia-ner-spacy</a></p>
+<p>Untuk tulisan versi bahasa Inggris mungkin besok ya ada, tapi tidak janji lhooo yaaa&hellip;</p>
+
+    </section>
+</article>
+
+<footer id="post-meta" class="clearfix">
+    
+    <img class="avatar" src="https://yudanta.github.io/images/avatar.png">
+    <div>
+        <span class="dark">Yudanta</span>
+        <span>Developer, Data Processing, Natural Language Processing, and everything in between.</span>
+    </div>
+    
+    <section id="sharing">
+        <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fyudanta.github.io%2fposts%2ftrain-an-indonesian-ner-from-a-blank-spacy-model%2f - Train%20an%20Indonesian%20NER%20From%20a%20Blank%20SpaCy%20Model "><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+    </section>
+</footer>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yudanta-github-io" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+
+    
+    
+    
+        <li>
+            <a href="/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/">Series 3 Exporting LSTM Gender Classification and Serving With Flask<aside class="dates">Oct 12 2020</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/">Series 2 Exporting LSTM Gender Classification and Serving With Tensorflowserving<aside class="dates">Oct 1 2020</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/series-1-lstm-gender-classification-tensorflow/">Series 1 LSTM Gender Classification Tensorflow<aside class="dates">Sep 27 2020</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/simple-asymetric-encryption-with-python/">Simple Asymetric Encryption With Python<aside class="dates">Sep 14 2020</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/nvidia-docker-and-docker-compose-enabled/">Nvidia Docker and Docker Compose Enabled<aside class="dates">Jan 11 2019</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/flask-mongoengine-multiple-databases-with-alias/">Flask Mongoengine, Multiple Databases With Alias<aside class="dates">Jan 11 2019</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/">How I Dockerize My Flask App With Pypy and Supervisord<aside class="dates">Dec 19 2018</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/the-books-i-read-recently/">The Books I Read Recently<aside class="dates">Dec 18 2018</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/hello-world/">Hello World<aside class="dates">Dec 15 2018</aside></a>
+        </li>
+    
+</ul>
+
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/yudanta/">
+        github
+    </a>
+    
+    <a class="symbol" href="https://linkedin.com/in/yudanta/">
+        linkedin
+    </a>
+    
+    <a class="symbol" href="https://twitter.com/akuyudanta/">
+        twitterbird
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2020 Yudanta
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://yudanta.github.io/js/main.js"></script>
+<script src="https://yudanta.github.io/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-45000886-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+</body>
+</html>

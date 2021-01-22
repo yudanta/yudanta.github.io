@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Snippets on Ydn&#39;s personal blog.</title>
+    <link>https://yudanta.github.io/categories/snippets/</link>
+    <description>Recent content in Snippets on Ydn&#39;s personal blog.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 22 Jan 2021 15:01:37 +0700</lastBuildDate><atom:link href="https://yudanta.github.io/categories/snippets/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sending Whatsapp Message Using Whatsapp Web and Selenium</title>
+      <link>https://yudanta.github.io/posts/sending-whatsapp-message-using-whatsapp-web-and-selenium/</link>
+      <pubDate>Fri, 22 Jan 2021 15:01:37 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/posts/sending-whatsapp-message-using-whatsapp-web-and-selenium/</guid>
+      <description>Long story short, a few days ago me and my friends need to send/blast an information about event details to our community members through WhatsApp messenger. Instead of sending to all recipients one-by-one and taking too long time to get the job done, I made simple scripts to automate sending a new WhatsApp message through WhatsApp web with Selenium and webdriver(gecko).
+The Idea was very simple, I utilize webdriver to open a new chat-box, then use selenium to find the textbox, paste the text and hit the send button or sending enter key.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Yudanta">
+<meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
+<meta name="generator" content="Hugo 0.80.0" />
+<title>Deploy Spacy Ner With Fast Api</title>
+<link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
+<link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
+<link rel="stylesheet" href="https://yudanta.github.io/css/highlight.css">
+
+
+
+<link rel="stylesheet" href="https://yudanta.github.io/css/monosocialiconsfont.css">
+
+
+
+<link href="https://yudanta.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Ydn&#39;s personal blog." />
+
+
+<meta property="og:title" content="Deploy Spacy Ner With Fast Api" />
+<meta property="og:description" content="In my previous post here: https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/, I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: https://fastapi." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/" />
+<meta property="article:published_time" content="2021-01-28T19:25:46+07:00" />
+<meta property="article:modified_time" content="2021-01-28T19:25:46+07:00" /><meta property="og:see_also" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/" />
+
+
+
+<meta itemprop="name" content="Deploy Spacy Ner With Fast Api">
+<meta itemprop="description" content="In my previous post here: https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/, I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: https://fastapi.">
+<meta itemprop="datePublished" content="2021-01-28T19:25:46+07:00" />
+<meta itemprop="dateModified" content="2021-01-28T19:25:46+07:00" />
+<meta itemprop="wordCount" content="433">
+
+
+
+<meta itemprop="keywords" content="SpaCy,NER,NLP,SpaCy," />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Deploy Spacy Ner With Fast Api"/>
+<meta name="twitter:description" content="In my previous post here: https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/, I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: https://fastapi."/>
+<meta name="twitter:site" content="@https://twitter.com/akuyudanta/"/>
+
+
+    </head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://yudanta.github.io/'> <span class="arrow">←</span>Home</a>
+	
+
+	
+ 		<a href='/about/'>About</a>
+  	
+ 		<a href='/posts'>Posts</a>
+  	
+ 		<a href='/series'>Series</a>
+  	
+
+	
+		<a class="cta" href="https://yudanta.github.io/index.xml">Subscribe</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>Deploy Spacy Ner With Fast Api</h1>
+        <h2 class="subtitle"></h2>
+        <h2 class="headline">
+        January 28, 2021
+        <br>
+        
+        
+            
+                <a href="https://yudanta.github.io/tags/spacy">SpaCy</a>
+            
+                <a href="https://yudanta.github.io/tags/ner">NER</a>
+            
+                <a href="https://yudanta.github.io/tags/nlp">NLP</a>
+            
+                <a href="https://yudanta.github.io/tags/spacy">SpaCy</a>
+            
+        
+        
+        </h2>
+    </header>
+    <section id="post-body">
+        <p>In my previous post here: <a href="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/,">https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/,</a> I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: <a href="https://fastapi.tiangolo.com/tutorial/">https://fastapi.tiangolo.com/tutorial/</a>.</p>
+<p>First, I already prepare the trained model here in this directory <code>nlp_models/nlp_id_checkpoint_2021-01-12</code>, for the example, so you don&rsquo;t have to train the model, except you are have your own model previously or more datasets then use your own model.</p>
+<p>We structured the FastAPI model as below:</p>
+<pre><code>├── README.md
+├── app
+│   ├── __init__.py
+│   ├── apis
+│   │   └── nlp
+│   │       ├── __init__.py
+│   │       └── ner.py
+│   ├── core
+│   │   └── __init__.py
+│   ├── main.py
+│   ├── routes
+│   │   ├── __init__.py
+│   │   └── nlp.py
+│   └── tests
+│       └── __init__.py
+├── config.py
+├── logging.conf
+├── nlp_models
+│   └── nlp_id_checkpoint_2021-01-12
+└── requirements.txt
+</code></pre><p>To load pre-trained spacy model in ```main.py``</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pathlib <span style="color:#f92672">import</span> Path
+<span style="color:#f92672">import</span> spacy
+
+model_dir <span style="color:#f92672">=</span> Path(<span style="color:#e6db74">&#39;nlp_models/nlp_id_checkpoint_2021-01-12&#39;</span>)
+id_nlp <span style="color:#f92672">=</span> spacy<span style="color:#f92672">.</span>load(model_dir)
+</code></pre></div><p>I add <code>ner.py</code> under <code>app/apis/nlp</code> for handling query from users to SpaCy model</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> List, Dict
+<span style="color:#f92672">from</span> ...main <span style="color:#f92672">import</span> id_nlp
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_entities</span>(sentence) <span style="color:#f92672">-&gt;</span> List[Dict]:
+    doc <span style="color:#f92672">=</span> id_nlp(sentence)
+    <span style="color:#66d9ef">return</span> [(ent<span style="color:#f92672">.</span>text, ent<span style="color:#f92672">.</span>label_) <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> doc<span style="color:#f92672">.</span>ents]
+</code></pre></div><p>and for handling the http route/request, the script for http routing is in <code>nlp.py</code> file</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> Optional
+<span style="color:#f92672">from</span> fastapi <span style="color:#f92672">import</span> APIRouter
+<span style="color:#f92672">from</span> pydantic <span style="color:#f92672">import</span> BaseModel
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NerQuery</span>(BaseModel):
+    sentence: str
+
+
+<span style="color:#f92672">from</span> ..apis.nlp.ner <span style="color:#f92672">import</span> get_entities
+
+router <span style="color:#f92672">=</span> APIRouter(
+    prefix<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/nlp/id&#39;</span>,
+    tags<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;nlp&#39;</span>],
+    responses<span style="color:#f92672">=</span>{
+        <span style="color:#ae81ff">404</span>: {<span style="color:#e6db74">&#39;description&#39;</span>: <span style="color:#e6db74">&#39;Not Found&#39;</span>}
+    }
+)
+
+<span style="color:#a6e22e">@router.post</span>(<span style="color:#e6db74">&#39;/ner&#39;</span>)
+async <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">api_ner</span>(query: NerQuery):
+    result <span style="color:#f92672">=</span> get_entities(query<span style="color:#f92672">.</span>sentence)
+    <span style="color:#66d9ef">return</span> result
+
+</code></pre></div><p>Lastly, we add the router to the <code>main.py</code> file with <code>include_router</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">app <span style="color:#f92672">=</span> FastAPI()
+
+<span style="color:#f92672">from</span> .routes <span style="color:#f92672">import</span> nlp
+
+app<span style="color:#f92672">.</span>include_router(nlp<span style="color:#f92672">.</span>router)
+</code></pre></div><p>to run the project with uvicorn:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">uvicorn app.main:app --reload
+</code></pre></div><p>wait a moments, some time required for loading SpaCy model.</p>
+<p>You can access the generated documentation here: http://localhost:8000/docs#/nlp/api_ner_nlp_id_ner_post, try to query directly from the swagger or using curl like below</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -X POST <span style="color:#e6db74">&#34;http://localhost:8000/nlp/id/ner&#34;</span> -H  <span style="color:#e6db74">&#34;accept: application/json&#34;</span> -H  <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -d <span style="color:#e6db74">&#34;{\&#34;sentence\&#34;:\&#34;Bekas Anggota BPK Rizal Djalil Didakwa Menerima Suap Rp 1 Miliar.\&#34;}&#34;</span>
+</code></pre></div><p>result</p>
+<pre><code>[
+  [
+    &quot;Rizal Djalil&quot;,
+    &quot;PERSON&quot;
+  ]
+]
+</code></pre><p>the complete codes for this project can be found on this repository: <a href="https://github.com/yudanta/id-ner-spacy-fast-api,">https://github.com/yudanta/id-ner-spacy-fast-api,</a> maybe, later I will add docker file for this project and maybe provide an online demo (but not promise :D)</p>
+
+    </section>
+</article>
+
+<footer id="post-meta" class="clearfix">
+    
+    <img class="avatar" src="https://yudanta.github.io/images/avatar.png">
+    <div>
+        <span class="dark">Yudanta</span>
+        <span>Developer, Data Processing, Natural Language Processing, and everything in between.</span>
+    </div>
+    
+    <section id="sharing">
+        <a class="twitter" href="https://twitter.com/intent/tweet?text=https%3a%2f%2fyudanta.github.io%2fposts%2fdeploy-spacy-ner-with-fast-api%2f - Deploy%20Spacy%20Ner%20With%20Fast%20Api "><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+    </section>
+</footer>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yudanta-github-io" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<ul id="post-list" class="archive readmore">
+    <h3>Read more</h3>
+
+    
+    
+    
+        <li>
+            <a href="/posts/sending-whatsapp-message-using-whatsapp-web-and-selenium/">Sending Whatsapp Message Using Whatsapp Web and Selenium<aside class="dates">Jan 22 2021</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/train-an-indonesian-ner-from-a-blank-spacy-model/">Train an Indonesian NER From a Blank SpaCy Model<aside class="dates">Oct 26 2020</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/">Series 3 Exporting LSTM Gender Classification and Serving With Flask<aside class="dates">Oct 12 2020</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/">Series 2 Exporting LSTM Gender Classification and Serving With Tensorflowserving<aside class="dates">Oct 1 2020</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/series-1-lstm-gender-classification-tensorflow/">Series 1 LSTM Gender Classification Tensorflow<aside class="dates">Sep 27 2020</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/simple-asymetric-encryption-with-python/">Simple Asymetric Encryption With Python<aside class="dates">Sep 14 2020</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/nvidia-docker-and-docker-compose-enabled/">Nvidia Docker and Docker Compose Enabled<aside class="dates">Jan 11 2019</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/flask-mongoengine-multiple-databases-with-alias/">Flask Mongoengine, Multiple Databases With Alias<aside class="dates">Jan 11 2019</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/">How I Dockerize My Flask App With Pypy and Supervisord<aside class="dates">Dec 19 2018</aside></a>
+        </li>
+    
+        <li>
+            <a href="/posts/the-books-i-read-recently/">The Books I Read Recently<aside class="dates">Dec 18 2018</aside></a>
+        </li>
+    
+</ul>
+
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/yudanta/">
+        github
+    </a>
+    
+    <a class="symbol" href="https://linkedin.com/in/yudanta/">
+        linkedin
+    </a>
+    
+    <a class="symbol" href="https://twitter.com/akuyudanta/">
+        twitterbird
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2021 Yudanta
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://yudanta.github.io/js/main.js"></script>
+<script src="https://yudanta.github.io/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-45000886-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+</body>
+</html>

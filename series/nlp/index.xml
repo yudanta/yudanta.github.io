@@ -6,7 +6,16 @@
     <description>Recent content in NLP on Ydn&#39;s personal blog.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 Oct 2020 23:23:57 +0700</lastBuildDate><atom:link href="https://yudanta.github.io/series/nlp/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 28 Jan 2021 19:25:46 +0700</lastBuildDate><atom:link href="https://yudanta.github.io/series/nlp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy Spacy Ner With Fast Api</title>
+      <link>https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/</link>
+      <pubDate>Thu, 28 Jan 2021 19:25:46 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/</guid>
+      <description>In my previous post here: https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/, I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: https://fastapi.</description>
+    </item>
+    
     <item>
       <title>Train an Indonesian NER From a Blank SpaCy Model</title>
       <link>https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/</link>

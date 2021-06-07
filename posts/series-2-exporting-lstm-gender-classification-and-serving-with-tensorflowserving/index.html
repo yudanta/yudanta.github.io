@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yudanta">
 <meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
-<meta name="generator" content="Hugo 0.80.0" />
+<meta name="generator" content="Hugo 0.83.1" />
 <title>Series 2 Exporting LSTM Gender Classification and Serving With Tensorflowserving</title>
 <link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
 <link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
@@ -24,22 +24,18 @@
 <meta property="og:title" content="Series 2 Exporting LSTM Gender Classification and Serving With Tensorflowserving" />
 <meta property="og:description" content="So this is the second part of the series, in the previous part we successfully train our model and test the model directly from trained model instance. in this part we will export the model and serve the model with tensorflow serving so it can be accessed with REST api or gRPC endpoints, in short you can serve your model like in production, so others can performing request to ask a gender prediction to your model." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/" />
-<meta property="article:published_time" content="2020-10-01T14:17:47+07:00" />
-<meta property="article:modified_time" content="2020-10-01T14:17:47+07:00" /><meta property="og:see_also" content="https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/" />
+<meta property="og:url" content="https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-01T14:17:47&#43;07:00" />
+<meta property="article:modified_time" content="2020-10-01T14:17:47&#43;07:00" />
+<meta property="og:see_also" content="https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/" />
 
 
 
 <meta itemprop="name" content="Series 2 Exporting LSTM Gender Classification and Serving With Tensorflowserving">
-<meta itemprop="description" content="So this is the second part of the series, in the previous part we successfully train our model and test the model directly from trained model instance. in this part we will export the model and serve the model with tensorflow serving so it can be accessed with REST api or gRPC endpoints, in short you can serve your model like in production, so others can performing request to ask a gender prediction to your model.">
-<meta itemprop="datePublished" content="2020-10-01T14:17:47+07:00" />
-<meta itemprop="dateModified" content="2020-10-01T14:17:47+07:00" />
+<meta itemprop="description" content="So this is the second part of the series, in the previous part we successfully train our model and test the model directly from trained model instance. in this part we will export the model and serve the model with tensorflow serving so it can be accessed with REST api or gRPC endpoints, in short you can serve your model like in production, so others can performing request to ask a gender prediction to your model."><meta itemprop="datePublished" content="2020-10-01T14:17:47&#43;07:00" />
+<meta itemprop="dateModified" content="2020-10-01T14:17:47&#43;07:00" />
 <meta itemprop="wordCount" content="851">
-
-
-
 <meta itemprop="keywords" content="Tensorflow,Text Classification,NLP,LSTM," />
-
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Series 2 Exporting LSTM Gender Classification and Serving With Tensorflowserving"/>
 <meta name="twitter:description" content="So this is the second part of the series, in the previous part we successfully train our model and test the model directly from trained model instance. in this part we will export the model and serve the model with tensorflow serving so it can be accessed with REST api or gRPC endpoints, in short you can serve your model like in production, so others can performing request to ask a gender prediction to your model."/>
@@ -276,6 +272,10 @@ prediction <span style="color:#f92672">=</span> json<span style="color:#f92672">
     
     
         <li>
+            <a href="/posts/hello-fuse-project-from-semeru/">Hello Fuse Project, From Semeru<aside class="dates">Jun 7 2021</aside></a>
+        </li>
+    
+        <li>
             <a href="/posts/deploy-spacy-ner-with-fast-api/">Deploy Spacy Ner With Fast Api<aside class="dates">Jan 28 2021</aside></a>
         </li>
     
@@ -309,10 +309,6 @@ prediction <span style="color:#f92672">=</span> json<span style="color:#f92672">
     
         <li>
             <a href="/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/">How I Dockerize My Flask App With Pypy and Supervisord<aside class="dates">Dec 19 2018</aside></a>
-        </li>
-    
-        <li>
-            <a href="/posts/the-books-i-read-recently/">The Books I Read Recently<aside class="dates">Dec 18 2018</aside></a>
         </li>
     
 </ul>
@@ -371,7 +367,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 
 </body>
 </html>

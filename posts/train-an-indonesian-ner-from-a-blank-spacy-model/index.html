@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yudanta">
 <meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
-<meta name="generator" content="Hugo 0.80.0" />
+<meta name="generator" content="Hugo 0.83.1" />
 <title>Train an Indonesian NER From a Blank SpaCy Model</title>
 <link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
 <link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
@@ -25,23 +25,19 @@
 <meta property="og:description" content="So, how we train a Named Entity Recognition model in SpaCy using our own dataset? long story short, though the title is in English, but this time I will write the story in Indonesian, since the model is an Indonesian Named Entity Recognition.
 Jadi&hellip; bagi yang ingin bikin model untuk keperluan &ldquo;sequence-tagging&rdquo; seperti Ekstraksi Entitas dan Pengenalan Entitas, maka biar tidak pusing atau pusing dengan bikin model pakai stack LSTM atau LSTM&#43;CRF seperti kebanyakan yang ada di tutorial-tutorial itu, apalagi pakai embedding kaya word2vec dan glove dan bert fang femes itu kan overkill&hellip; dan tentunya bakal lama, ya to ya?" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" />
-<meta property="article:published_time" content="2020-10-26T23:23:57+07:00" />
-<meta property="article:modified_time" content="2020-10-26T23:23:57+07:00" /><meta property="og:see_also" content="https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/" />
+<meta property="og:url" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-26T23:23:57&#43;07:00" />
+<meta property="article:modified_time" content="2020-10-26T23:23:57&#43;07:00" />
+<meta property="og:see_also" content="https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/" />
 
 
 
 <meta itemprop="name" content="Train an Indonesian NER From a Blank SpaCy Model">
 <meta itemprop="description" content="So, how we train a Named Entity Recognition model in SpaCy using our own dataset? long story short, though the title is in English, but this time I will write the story in Indonesian, since the model is an Indonesian Named Entity Recognition.
-Jadi&hellip; bagi yang ingin bikin model untuk keperluan &ldquo;sequence-tagging&rdquo; seperti Ekstraksi Entitas dan Pengenalan Entitas, maka biar tidak pusing atau pusing dengan bikin model pakai stack LSTM atau LSTM&#43;CRF seperti kebanyakan yang ada di tutorial-tutorial itu, apalagi pakai embedding kaya word2vec dan glove dan bert fang femes itu kan overkill&hellip; dan tentunya bakal lama, ya to ya?">
-<meta itemprop="datePublished" content="2020-10-26T23:23:57+07:00" />
-<meta itemprop="dateModified" content="2020-10-26T23:23:57+07:00" />
+Jadi&hellip; bagi yang ingin bikin model untuk keperluan &ldquo;sequence-tagging&rdquo; seperti Ekstraksi Entitas dan Pengenalan Entitas, maka biar tidak pusing atau pusing dengan bikin model pakai stack LSTM atau LSTM&#43;CRF seperti kebanyakan yang ada di tutorial-tutorial itu, apalagi pakai embedding kaya word2vec dan glove dan bert fang femes itu kan overkill&hellip; dan tentunya bakal lama, ya to ya?"><meta itemprop="datePublished" content="2020-10-26T23:23:57&#43;07:00" />
+<meta itemprop="dateModified" content="2020-10-26T23:23:57&#43;07:00" />
 <meta itemprop="wordCount" content="826">
-
-
-
 <meta itemprop="keywords" content="SpaCy,NER,NLP," />
-
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Train an Indonesian NER From a Blank SpaCy Model"/>
 <meta name="twitter:description" content="So, how we train a Named Entity Recognition model in SpaCy using our own dataset? long story short, though the title is in English, but this time I will write the story in Indonesian, since the model is an Indonesian Named Entity Recognition.
@@ -242,6 +238,10 @@ displacy<span style="color:#f92672">.</span>render(doc, style<span style="color:
     
     
         <li>
+            <a href="/posts/hello-fuse-project-from-semeru/">Hello Fuse Project, From Semeru<aside class="dates">Jun 7 2021</aside></a>
+        </li>
+    
+        <li>
             <a href="/posts/deploy-spacy-ner-with-fast-api/">Deploy Spacy Ner With Fast Api<aside class="dates">Jan 28 2021</aside></a>
         </li>
     
@@ -275,10 +275,6 @@ displacy<span style="color:#f92672">.</span>render(doc, style<span style="color:
     
         <li>
             <a href="/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/">How I Dockerize My Flask App With Pypy and Supervisord<aside class="dates">Dec 19 2018</aside></a>
-        </li>
-    
-        <li>
-            <a href="/posts/the-books-i-read-recently/">The Books I Read Recently<aside class="dates">Dec 18 2018</aside></a>
         </li>
     
 </ul>
@@ -337,7 +333,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 
 </body>
 </html>

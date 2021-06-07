@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yudanta">
 <meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
-<meta name="generator" content="Hugo 0.80.0" />
+<meta name="generator" content="Hugo 0.83.1" />
 <title>Deploy Spacy Ner With Fast Api</title>
 <link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
 <link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
@@ -24,22 +24,18 @@
 <meta property="og:title" content="Deploy Spacy Ner With Fast Api" />
 <meta property="og:description" content="In my previous post here: https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/, I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: https://fastapi." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/" />
-<meta property="article:published_time" content="2021-01-28T19:25:46+07:00" />
-<meta property="article:modified_time" content="2021-01-28T19:25:46+07:00" /><meta property="og:see_also" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/" />
+<meta property="og:url" content="https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-01-28T19:25:46&#43;07:00" />
+<meta property="article:modified_time" content="2021-01-28T19:25:46&#43;07:00" />
+<meta property="og:see_also" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/" />
 
 
 
 <meta itemprop="name" content="Deploy Spacy Ner With Fast Api">
-<meta itemprop="description" content="In my previous post here: https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/, I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: https://fastapi.">
-<meta itemprop="datePublished" content="2021-01-28T19:25:46+07:00" />
-<meta itemprop="dateModified" content="2021-01-28T19:25:46+07:00" />
+<meta itemprop="description" content="In my previous post here: https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/, I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: https://fastapi."><meta itemprop="datePublished" content="2021-01-28T19:25:46&#43;07:00" />
+<meta itemprop="dateModified" content="2021-01-28T19:25:46&#43;07:00" />
 <meta itemprop="wordCount" content="433">
-
-
-
 <meta itemprop="keywords" content="SpaCy,NER,NLP,SpaCy," />
-
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploy Spacy Ner With Fast Api"/>
 <meta name="twitter:description" content="In my previous post here: https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/, I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: https://fastapi."/>
@@ -226,6 +222,10 @@ app<span style="color:#f92672">.</span>include_router(nlp<span style="color:#f92
     
     
         <li>
+            <a href="/posts/hello-fuse-project-from-semeru/">Hello Fuse Project, From Semeru<aside class="dates">Jun 7 2021</aside></a>
+        </li>
+    
+        <li>
             <a href="/posts/sending-whatsapp-message-using-whatsapp-web-and-selenium/">Sending Whatsapp Message Using Whatsapp Web and Selenium<aside class="dates">Jan 22 2021</aside></a>
         </li>
     
@@ -259,10 +259,6 @@ app<span style="color:#f92672">.</span>include_router(nlp<span style="color:#f92
     
         <li>
             <a href="/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/">How I Dockerize My Flask App With Pypy and Supervisord<aside class="dates">Dec 19 2018</aside></a>
-        </li>
-    
-        <li>
-            <a href="/posts/the-books-i-read-recently/">The Books I Read Recently<aside class="dates">Dec 18 2018</aside></a>
         </li>
     
 </ul>
@@ -321,7 +317,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 
 </body>
 </html>

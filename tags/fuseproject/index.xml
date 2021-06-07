@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>FuseProject on Ydn&#39;s personal blog.</title>
+    <link>https://yudanta.github.io/tags/fuseproject/</link>
+    <description>Recent content in FuseProject on Ydn&#39;s personal blog.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 07 Jun 2021 21:59:10 +0700</lastBuildDate><atom:link href="https://yudanta.github.io/tags/fuseproject/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hello Fuse Project, From Semeru</title>
+      <link>https://yudanta.github.io/posts/hello-fuse-project-from-semeru/</link>
+      <pubDate>Mon, 07 Jun 2021 21:59:10 +0700</pubDate>
+      
+      <guid>https://yudanta.github.io/posts/hello-fuse-project-from-semeru/</guid>
+      <description>Hello, welcoming our new born baby, Fuse Project! an Indonesian NLP model in REST API.
+ TLDR; Fuse is our side-project which are focuses on developing Indonesian NLP models, anyone can try the model here: https://fuse-id-nlp.herokuapp.com/docs
+ A few months ago me and my friend Repapheng were having a conversation about current NLP models especially for Indonesian language. Fun fact is, We both are graduated student with NLP as focus research for final thesis.</description>
+    </item>
+    
+  </channel>
+</rss>

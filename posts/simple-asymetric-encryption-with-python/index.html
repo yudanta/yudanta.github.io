@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yudanta">
 <meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
-<meta name="generator" content="Hugo 0.80.0" />
+<meta name="generator" content="Hugo 0.83.1" />
 <title>Simple Asymetric Encryption With Python</title>
 <link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
 <link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
@@ -25,22 +25,18 @@
 <meta property="og:description" content="So, first of all, this is just a snippet for those who courious and wants to know about asymetric encryption using private and public key to securing your data or communication. As we know, end to end encryption is very popular right now such as in your private messaging application (Whatsapp or Telegram), it is non deniable, one of our way to securing our communication in digital era.
 The concept is very simmple, both parties are generating two kind of keys, one is private and one is public." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://yudanta.github.io/posts/simple-asymetric-encryption-with-python/" />
-<meta property="article:published_time" content="2020-09-14T12:55:59+07:00" />
-<meta property="article:modified_time" content="2020-09-14T12:55:59+07:00" />
+<meta property="og:url" content="https://yudanta.github.io/posts/simple-asymetric-encryption-with-python/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-09-14T12:55:59&#43;07:00" />
+<meta property="article:modified_time" content="2020-09-14T12:55:59&#43;07:00" />
+
 
 
 <meta itemprop="name" content="Simple Asymetric Encryption With Python">
 <meta itemprop="description" content="So, first of all, this is just a snippet for those who courious and wants to know about asymetric encryption using private and public key to securing your data or communication. As we know, end to end encryption is very popular right now such as in your private messaging application (Whatsapp or Telegram), it is non deniable, one of our way to securing our communication in digital era.
-The concept is very simmple, both parties are generating two kind of keys, one is private and one is public.">
-<meta itemprop="datePublished" content="2020-09-14T12:55:59+07:00" />
-<meta itemprop="dateModified" content="2020-09-14T12:55:59+07:00" />
+The concept is very simmple, both parties are generating two kind of keys, one is private and one is public."><meta itemprop="datePublished" content="2020-09-14T12:55:59&#43;07:00" />
+<meta itemprop="dateModified" content="2020-09-14T12:55:59&#43;07:00" />
 <meta itemprop="wordCount" content="545">
-
-
-
 <meta itemprop="keywords" content="Python,Asymetric Encryption," />
-
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Simple Asymetric Encryption With Python"/>
 <meta name="twitter:description" content="So, first of all, this is just a snippet for those who courious and wants to know about asymetric encryption using private and public key to securing your data or communication. As we know, end to end encryption is very popular right now such as in your private messaging application (Whatsapp or Telegram), it is non deniable, one of our way to securing our communication in digital era.
@@ -147,7 +143,7 @@ The concept is very simmple, both parties are generating two kind of keys, one i
 <span style="color:#f92672">from</span> cryptography.hazmat.primitives.asymmetric <span style="color:#f92672">import</span> padding
 
 key_file <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#39;public_key.pem&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>)
-   
+
 <span style="color:#75715e"># load public key </span>
 public_key <span style="color:#f92672">=</span> serialization<span style="color:#f92672">.</span>load_pem_public_key(
     key_file<span style="color:#f92672">.</span>read(),
@@ -166,7 +162,7 @@ public_key <span style="color:#f92672">=</span> serialization<span style="color:
          label<span style="color:#f92672">=</span>None
          )
      )
-    
+
  <span style="color:#75715e"># write encrypted content to file</span>
  <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;encrypted_content.txt&#34;</span>, <span style="color:#e6db74">&#34;wb&#34;</span>) <span style="color:#66d9ef">as</span> f:
      f<span style="color:#f92672">.</span>write(encrypted)
@@ -265,6 +261,10 @@ plain_text <span style="color:#f92672">=</span> private_key<span style="color:#f
     
     
         <li>
+            <a href="/posts/hello-fuse-project-from-semeru/">Hello Fuse Project, From Semeru<aside class="dates">Jun 7 2021</aside></a>
+        </li>
+    
+        <li>
             <a href="/posts/deploy-spacy-ner-with-fast-api/">Deploy Spacy Ner With Fast Api<aside class="dates">Jan 28 2021</aside></a>
         </li>
     
@@ -298,10 +298,6 @@ plain_text <span style="color:#f92672">=</span> private_key<span style="color:#f
     
         <li>
             <a href="/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/">How I Dockerize My Flask App With Pypy and Supervisord<aside class="dates">Dec 19 2018</aside></a>
-        </li>
-    
-        <li>
-            <a href="/posts/the-books-i-read-recently/">The Books I Read Recently<aside class="dates">Dec 18 2018</aside></a>
         </li>
     
 </ul>
@@ -360,7 +356,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 
 </body>
 </html>

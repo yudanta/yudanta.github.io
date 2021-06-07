@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yudanta">
 <meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
-<meta name="generator" content="Hugo 0.80.0" />
+<meta name="generator" content="Hugo 0.83.1" />
 <title>Series 1 LSTM Gender Classification Tensorflow</title>
 <link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
 <link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
@@ -25,23 +25,19 @@
 <meta property="og:description" content="Hello&hellip; this post will be part of a serial posts about how we using deep learning approach for simple text classification model, starting from training the model until serving the model into &ldquo;production ready&rdquo; application with TensorflowServing or Flask. This series posts will be divided into 3 posts, the first one is preparing and training our simple model to recognize a gender based on name.
 Lets say we want a model for our application needs to predict user&rsquo;s gender based on their name, so at first we have a datasets a pair of name and gender in ." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/" />
-<meta property="article:published_time" content="2020-09-27T22:36:58+07:00" />
-<meta property="article:modified_time" content="2020-09-27T22:36:58+07:00" /><meta property="og:see_also" content="https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/" />
+<meta property="og:url" content="https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-09-27T22:36:58&#43;07:00" />
+<meta property="article:modified_time" content="2020-09-27T22:36:58&#43;07:00" />
+<meta property="og:see_also" content="https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/" />
 
 
 
 <meta itemprop="name" content="Series 1 LSTM Gender Classification Tensorflow">
 <meta itemprop="description" content="Hello&hellip; this post will be part of a serial posts about how we using deep learning approach for simple text classification model, starting from training the model until serving the model into &ldquo;production ready&rdquo; application with TensorflowServing or Flask. This series posts will be divided into 3 posts, the first one is preparing and training our simple model to recognize a gender based on name.
-Lets say we want a model for our application needs to predict user&rsquo;s gender based on their name, so at first we have a datasets a pair of name and gender in .">
-<meta itemprop="datePublished" content="2020-09-27T22:36:58+07:00" />
-<meta itemprop="dateModified" content="2020-09-27T22:36:58+07:00" />
+Lets say we want a model for our application needs to predict user&rsquo;s gender based on their name, so at first we have a datasets a pair of name and gender in ."><meta itemprop="datePublished" content="2020-09-27T22:36:58&#43;07:00" />
+<meta itemprop="dateModified" content="2020-09-27T22:36:58&#43;07:00" />
 <meta itemprop="wordCount" content="477">
-
-
-
 <meta itemprop="keywords" content="Tensorflow,Text Classification,NLP,LSTM," />
-
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Series 1 LSTM Gender Classification Tensorflow"/>
 <meta name="twitter:description" content="Hello&hellip; this post will be part of a serial posts about how we using deep learning approach for simple text classification model, starting from training the model until serving the model into &ldquo;production ready&rdquo; application with TensorflowServing or Flask. This series posts will be divided into 3 posts, the first one is preparing and training our simple model to recognize a gender based on name.
@@ -123,7 +119,7 @@ Lets say we want a model for our application needs to predict user&rsquo;s gende
 human_vocab <span style="color:#f92672">=</span> set()
 <span style="color:#66d9ef">for</span> name <span style="color:#f92672">in</span> data[<span style="color:#e6db74">&#39;name&#39;</span>]:
       human_vocab<span style="color:#f92672">.</span>update(tuple(name))
-        
+
 vocab_index <span style="color:#f92672">=</span> {v: k <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> enumerate(human_vocab)}
 
 <span style="color:#66d9ef">print</span>(vocab_index)
@@ -242,6 +238,10 @@ res <span style="color:#f92672">=</span> model<span style="color:#f92672">.</spa
     
     
         <li>
+            <a href="/posts/hello-fuse-project-from-semeru/">Hello Fuse Project, From Semeru<aside class="dates">Jun 7 2021</aside></a>
+        </li>
+    
+        <li>
             <a href="/posts/deploy-spacy-ner-with-fast-api/">Deploy Spacy Ner With Fast Api<aside class="dates">Jan 28 2021</aside></a>
         </li>
     
@@ -275,10 +275,6 @@ res <span style="color:#f92672">=</span> model<span style="color:#f92672">.</spa
     
         <li>
             <a href="/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/">How I Dockerize My Flask App With Pypy and Supervisord<aside class="dates">Dec 19 2018</aside></a>
-        </li>
-    
-        <li>
-            <a href="/posts/the-books-i-read-recently/">The Books I Read Recently<aside class="dates">Dec 18 2018</aside></a>
         </li>
     
 </ul>
@@ -337,7 +333,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 
 </body>
 </html>

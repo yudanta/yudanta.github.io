@@ -1,230 +1,152 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
+    <loc>https://yudanta.github.io/tags/fuseproject/</loc>
+    <lastmod>2021-06-07T21:59:10+07:00</lastmod>
+  </url><url>
+    <loc>https://yudanta.github.io/posts/hello-fuse-project-from-semeru/</loc>
+    <lastmod>2021-06-07T21:59:10+07:00</lastmod>
+  </url><url>
+    <loc>https://yudanta.github.io/tags/nlp/</loc>
+    <lastmod>2021-06-07T21:59:10+07:00</lastmod>
+  </url><url>
+    <loc>https://yudanta.github.io/posts/</loc>
+    <lastmod>2021-06-07T21:59:10+07:00</lastmod>
+  </url><url>
+    <loc>https://yudanta.github.io/tags/semeruai/</loc>
+    <lastmod>2021-06-07T21:59:10+07:00</lastmod>
+  </url><url>
+    <loc>https://yudanta.github.io/series/semeruai/</loc>
+    <lastmod>2021-06-07T21:59:10+07:00</lastmod>
+  </url><url>
+    <loc>https://yudanta.github.io/series/</loc>
+    <lastmod>2021-06-07T21:59:10+07:00</lastmod>
+  </url><url>
+    <loc>https://yudanta.github.io/tags/</loc>
+    <lastmod>2021-06-07T21:59:10+07:00</lastmod>
+  </url><url>
+    <loc>https://yudanta.github.io/</loc>
+    <lastmod>2021-06-07T21:59:10+07:00</lastmod>
+  </url><url>
     <loc>https://yudanta.github.io/categories/</loc>
     <lastmod>2021-01-28T19:25:46+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/</loc>
     <lastmod>2021-01-28T19:25:46+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/categories/engineering/</loc>
     <lastmod>2021-01-28T19:25:46+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/ner/</loc>
     <lastmod>2021-01-28T19:25:46+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://yudanta.github.io/tags/nlp/</loc>
-    <lastmod>2021-01-28T19:25:46+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/series/nlp/</loc>
     <lastmod>2021-01-28T19:25:46+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/categories/nlp/</loc>
     <lastmod>2021-01-28T19:25:46+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://yudanta.github.io/posts/</loc>
-    <lastmod>2021-01-28T19:25:46+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://yudanta.github.io/series/</loc>
-    <lastmod>2021-01-28T19:25:46+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/spacy/</loc>
     <lastmod>2021-01-28T19:25:46+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://yudanta.github.io/tags/</loc>
-    <lastmod>2021-01-28T19:25:46+07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://yudanta.github.io/</loc>
-    <lastmod>2021-01-28T19:25:46+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/gecko/</loc>
     <lastmod>2021-01-22T15:01:37+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/python/</loc>
     <lastmod>2021-01-22T15:01:37+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/selenium/</loc>
     <lastmod>2021-01-22T15:01:37+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/posts/sending-whatsapp-message-using-whatsapp-web-and-selenium/</loc>
     <lastmod>2021-01-22T15:01:37+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/categories/snippets/</loc>
     <lastmod>2021-01-22T15:01:37+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/webdriver/</loc>
     <lastmod>2021-01-22T15:01:37+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/whatsapp/</loc>
     <lastmod>2021-01-22T15:01:37+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/</loc>
     <lastmod>2020-10-26T23:23:57+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/lstm/</loc>
     <lastmod>2020-10-12T22:38:16+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/</loc>
     <lastmod>2020-10-12T22:38:16+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/tensorflow/</loc>
     <lastmod>2020-10-12T22:38:16+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/text-classification/</loc>
     <lastmod>2020-10-12T22:38:16+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/</loc>
     <lastmod>2020-10-01T14:17:47+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/</loc>
     <lastmod>2020-09-27T22:36:58+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/asymetric-encryption/</loc>
     <lastmod>2020-09-14T12:55:59+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/posts/simple-asymetric-encryption-with-python/</loc>
     <lastmod>2020-09-14T12:55:59+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/docker/</loc>
     <lastmod>2019-01-11T19:20:23+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/posts/nvidia-docker-and-docker-compose-enabled/</loc>
     <lastmod>2019-01-11T19:20:23+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/nvidia-docker/</loc>
     <lastmod>2019-01-11T19:20:23+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/tensorflow-gpu/</loc>
     <lastmod>2019-01-11T19:20:23+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/flask/</loc>
     <lastmod>2019-01-11T19:19:08+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/posts/flask-mongoengine-multiple-databases-with-alias/</loc>
     <lastmod>2019-01-11T19:19:08+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/mongoengine/</loc>
     <lastmod>2019-01-11T19:19:08+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/engineering/</loc>
     <lastmod>2018-12-19T00:21:38+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/</loc>
     <lastmod>2018-12-19T00:21:38+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/blog/</loc>
     <lastmod>2018-12-18T18:42:53+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/categories/books/</loc>
     <lastmod>2018-12-18T18:42:53+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/books/</loc>
     <lastmod>2018-12-18T18:42:53+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/categories/personal-thoughts/</loc>
     <lastmod>2018-12-18T18:42:53+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/tags/readings/</loc>
     <lastmod>2018-12-18T18:42:53+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/posts/the-books-i-read-recently/</loc>
     <lastmod>2018-12-18T18:42:53+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/about/</loc>
     <lastmod>2018-12-15T17:29:12+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://yudanta.github.io/posts/hello-world/</loc>
     <lastmod>2018-12-15T16:43:22+07:00</lastmod>
   </url>
-  
 </urlset>

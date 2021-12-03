@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yudanta">
 <meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
-<meta name="generator" content="Hugo 0.83.1" />
+<meta name="generator" content="Hugo 0.89.4" />
 <title>Train an Indonesian NER From a Blank SpaCy Model</title>
 <link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
 <link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
@@ -26,16 +26,16 @@
 Jadi&hellip; bagi yang ingin bikin model untuk keperluan &ldquo;sequence-tagging&rdquo; seperti Ekstraksi Entitas dan Pengenalan Entitas, maka biar tidak pusing atau pusing dengan bikin model pakai stack LSTM atau LSTM&#43;CRF seperti kebanyakan yang ada di tutorial-tutorial itu, apalagi pakai embedding kaya word2vec dan glove dan bert fang femes itu kan overkill&hellip; dan tentunya bakal lama, ya to ya?" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-10-26T23:23:57&#43;07:00" />
-<meta property="article:modified_time" content="2020-10-26T23:23:57&#43;07:00" />
+<meta property="article:published_time" content="2020-10-26T23:23:57+07:00" />
+<meta property="article:modified_time" content="2020-10-26T23:23:57+07:00" />
 <meta property="og:see_also" content="https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/" />
 
 
 
 <meta itemprop="name" content="Train an Indonesian NER From a Blank SpaCy Model">
 <meta itemprop="description" content="So, how we train a Named Entity Recognition model in SpaCy using our own dataset? long story short, though the title is in English, but this time I will write the story in Indonesian, since the model is an Indonesian Named Entity Recognition.
-Jadi&hellip; bagi yang ingin bikin model untuk keperluan &ldquo;sequence-tagging&rdquo; seperti Ekstraksi Entitas dan Pengenalan Entitas, maka biar tidak pusing atau pusing dengan bikin model pakai stack LSTM atau LSTM&#43;CRF seperti kebanyakan yang ada di tutorial-tutorial itu, apalagi pakai embedding kaya word2vec dan glove dan bert fang femes itu kan overkill&hellip; dan tentunya bakal lama, ya to ya?"><meta itemprop="datePublished" content="2020-10-26T23:23:57&#43;07:00" />
-<meta itemprop="dateModified" content="2020-10-26T23:23:57&#43;07:00" />
+Jadi&hellip; bagi yang ingin bikin model untuk keperluan &ldquo;sequence-tagging&rdquo; seperti Ekstraksi Entitas dan Pengenalan Entitas, maka biar tidak pusing atau pusing dengan bikin model pakai stack LSTM atau LSTM&#43;CRF seperti kebanyakan yang ada di tutorial-tutorial itu, apalagi pakai embedding kaya word2vec dan glove dan bert fang femes itu kan overkill&hellip; dan tentunya bakal lama, ya to ya?"><meta itemprop="datePublished" content="2020-10-26T23:23:57+07:00" />
+<meta itemprop="dateModified" content="2020-10-26T23:23:57+07:00" />
 <meta itemprop="wordCount" content="826">
 <meta itemprop="keywords" content="SpaCy,NER,NLP," />
 <meta name="twitter:card" content="summary"/>
@@ -94,36 +94,36 @@ Jadi&hellip; bagi yang ingin bikin model untuk keperluan &ldquo;sequence-tagging
 <p>Nah ada yang namanya SpaCy, jadi SpaCy ini pustaka perangkat lunak untuk NLP dari explosion.ai, sudah menyediakan &ldquo;stacks&rdquo; seperti kebutuhan pre-proses, tokenisasi, lematisasi, klasifikasi dan lain-lain termasuk ekstraksi entitas. Detail informasi terkait SpaCy bisa dilihat dan dipelajari laman resmi SpaCy. Sampai saat ini, SpaCy belum merilis pre-train model untuk bahasa Indonesia secara resmi, namun tetap kita bisa melakukan fine-tuning atau training model dengan data yang kita miliki, singkatnya cukup siapkan data dengan format yang sesuai tinggal train beberapa iterasi, bisa dipakai.</p>
 <p>Kali ini, akan ditulis mengenai instruksi singkat untuk men-train model Ekstrasi dan Pengenalan Entitas dengan SpaCy, untuk dataset saya mendapatkan data dari sini: <a href="https://raw.githubusercontent.com/yusufsyaifudin/indonesia-ner/master/resources/ner/data_train.txt">https://raw.githubusercontent.com/yusufsyaifudin/indonesia-ner/master/resources/ner/data_train.txt</a> dan sini: <a href="https://raw.githubusercontent.com/yohanesgultom/nlp-experiments/master/data/ner/training_data.txt">https://raw.githubusercontent.com/yohanesgultom/nlp-experiments/master/data/ner/training_data.txt</a> matur nuwun maaase&hellip;</p>
 <p>Data tersebut saya convert ke SpaCy format sehingga berformat seperti ini:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(<span style="color:#e6db74">&#39;Menurut Arie jika Aburizal terus memaksakan kehendaknya, bukan tidak mungkin Golkar akan menyusul Partai Persatuan Pembangunan yang terpecah karena konflik internal.&#39;</span>, {<span style="color:#e6db74">&#39;entities&#39;</span>: [(<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">12</span>, <span style="color:#e6db74">&#39;PERSON&#39;</span>), (<span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">26</span>, <span style="color:#e6db74">&#39;PERSON&#39;</span>), (<span style="color:#ae81ff">77</span>, <span style="color:#ae81ff">83</span>, <span style="color:#e6db74">&#39;ORGANIZATION&#39;</span>), (<span style="color:#ae81ff">98</span>, <span style="color:#ae81ff">126</span>, <span style="color:#e6db74">&#39;ORGANIZATION&#39;</span>)]})
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(<span style="color:#e6db74">&#39;Menurut Arie jika Aburizal terus memaksakan kehendaknya, bukan tidak mungkin Golkar akan menyusul Partai Persatuan Pembangunan yang terpecah karena konflik internal.&#39;</span>, {<span style="color:#e6db74">&#39;entities&#39;</span>: [(<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">12</span>, <span style="color:#e6db74">&#39;PERSON&#39;</span>), (<span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">26</span>, <span style="color:#e6db74">&#39;PERSON&#39;</span>), (<span style="color:#ae81ff">77</span>, <span style="color:#ae81ff">83</span>, <span style="color:#e6db74">&#39;ORGANIZATION&#39;</span>), (<span style="color:#ae81ff">98</span>, <span style="color:#ae81ff">126</span>, <span style="color:#e6db74">&#39;ORGANIZATION&#39;</span>)]})
 </code></pre></div><p>artinya, karakter dari indeks ke 18 hingga 26 merupakan kata yang mengandung Entitas dengan tipe PERSON, karakter indeks ke 77 hingga 83 mengandung Entitas dengan tipe Organisasi, begitu seterusnya.</p>
 <p>Pertama, kita panggil terlebih dahulu pustaka-pustaka yang dibutuhkan dan data pembelajaran yang sudah kita persiapkan sebelumnya:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pickle
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pickle
 <span style="color:#f92672">import</span> spacy
 <span style="color:#f92672">import</span> random
 <span style="color:#f92672">from</span> spacy.util <span style="color:#f92672">import</span> minibatch, compounding
 <span style="color:#f92672">from</span> spacy <span style="color:#f92672">import</span> load, displacy
 </code></pre></div><p>Pemanggilan data pembelajaran</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;ner_spacy_fmt_datasets.pickle&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;ner_spacy_fmt_datasets.pickle&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>) <span style="color:#66d9ef">as</span> f:
     ner_spacy_fmt_datasets <span style="color:#f92672">=</span> pickle<span style="color:#f92672">.</span>load(f)
 </code></pre></div><p>Selanjutnya kita akan buat model dari &ldquo;model kosong&rdquo; atau &ldquo;blank-model&rdquo; dengan perintah berikut</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">nlp<span style="color:#f92672">=</span>spacy<span style="color:#f92672">.</span>blank(<span style="color:#e6db74">&#34;id&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">nlp<span style="color:#f92672">=</span>spacy<span style="color:#f92672">.</span>blank(<span style="color:#e6db74">&#34;id&#34;</span>)
 
 nlp<span style="color:#f92672">.</span>add_pipe(nlp<span style="color:#f92672">.</span>create_pipe(<span style="color:#e6db74">&#39;ner&#39;</span>))
 
 nlp<span style="color:#f92672">.</span>begin_training()
 </code></pre></div><p>Kita ambil data-modul untuk NER dan menyisihkan yang lainnya.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ner<span style="color:#f92672">=</span>nlp<span style="color:#f92672">.</span>get_pipe(<span style="color:#e6db74">&#34;ner&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ner<span style="color:#f92672">=</span>nlp<span style="color:#f92672">.</span>get_pipe(<span style="color:#e6db74">&#34;ner&#34;</span>)
 
 pipe_exceptions <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;ner&#34;</span>, <span style="color:#e6db74">&#34;trf_wordpiecer&#34;</span>, <span style="color:#e6db74">&#34;trf_tok2vec&#34;</span>]
 
 unaffected_pipes <span style="color:#f92672">=</span> [pipe <span style="color:#66d9ef">for</span> pipe <span style="color:#f92672">in</span> nlp<span style="color:#f92672">.</span>pipe_names <span style="color:#66d9ef">if</span> pipe <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> pipe_exceptions]
 </code></pre></div><p>Kita proses atau ambil label tipe entitas dari data training</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> _, annotations <span style="color:#f92672">in</span> ner_spacy_fmt_datasets:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> _, annotations <span style="color:#f92672">in</span> ner_spacy_fmt_datasets:
     <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> annotations<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;entities&#34;</span>):
         ner<span style="color:#f92672">.</span>add_label(ent[<span style="color:#ae81ff">2</span>])
         <span style="color:#66d9ef">break</span>
 </code></pre></div><p>Untuk data train akan kita random terlebih dahulu baru kemudian kita masukkan ke iterasi training, pada contoh ini kita coba untuk latih model sebanyak 30 kali perulangan.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># TRAINING THE MODEL</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># TRAINING THE MODEL</span>
 <span style="color:#66d9ef">with</span> nlp<span style="color:#f92672">.</span>disable_pipes(<span style="color:#f92672">*</span>unaffected_pipes):
 
   <span style="color:#75715e"># Training for 30 iterations</span>
@@ -143,13 +143,13 @@ unaffected_pipes <span style="color:#f92672">=</span> [pipe <span style="color:#
                     losses<span style="color:#f92672">=</span>losses,
                 )
     
-    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Losses at iteration {}&#34;</span><span style="color:#f92672">.</span>format(iteration), losses)
+    print(<span style="color:#e6db74">&#34;Losses at iteration </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(iteration), losses)
 </code></pre></div><p>Setelah proses pembelajaran model selesai, untuk mencoba model yang telah kita latih dapat menggunakan kode berikut.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># test </span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># test </span>
 doc <span style="color:#f92672">=</span> nlp(<span style="color:#e6db74">&#34;SELUBUNG yang menyelimuti kasus penembakan yang menewaskan Pendeta Yeremia Zanambani di Kabupaten Intan Jaya, Papua kian terkuak. Hasil investigasi Tim Gabungan Pencari Fakta (TGPF) kasus tersebut menyatakan bahwa penembakan di Intan Jaya diduga dilakukan oleh aparat keamanan.&#34;</span>)
 
-<span style="color:#66d9ef">print</span>(doc<span style="color:#f92672">.</span>ents)
-<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Entities&#34;</span>, [(ent<span style="color:#f92672">.</span>text, ent<span style="color:#f92672">.</span>label_) <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> doc<span style="color:#f92672">.</span>ents])
+print(doc<span style="color:#f92672">.</span>ents)
+print(<span style="color:#e6db74">&#34;Entities&#34;</span>, [(ent<span style="color:#f92672">.</span>text, ent<span style="color:#f92672">.</span>label_) <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> doc<span style="color:#f92672">.</span>ents])
 
 <span style="color:#75715e"># output </span>
 <span style="color:#e6db74">&#34;&#34;&#34;
@@ -157,28 +157,28 @@ doc <span style="color:#f92672">=</span> nlp(<span style="color:#e6db74">&#34;SE
 </span><span style="color:#e6db74">Entities [(&#39;SELUBUNG&#39;, &#39;ORGANIZATION&#39;), (&#39;Pendeta Yeremia Zanambani&#39;, &#39;PERSON&#39;), (&#39;Kabupaten Intan&#39;, &#39;LOCATION&#39;), (&#39;Gabungan Pencari Fakta (TGPF&#39;, &#39;ORGANIZATION&#39;), (&#39;Intan Jaya&#39;, &#39;LOCATION&#39;)]
 </span><span style="color:#e6db74">&#34;&#34;&#34;</span>
 </code></pre></div><p>Nah, agar supaya nantinya tidak melulu melatih ketika akan digunakan, model yang sudah kita latih dapat kita simpan untuk digunakan di waktu yang akan datang.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pathlib <span style="color:#f92672">import</span> Path
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pathlib <span style="color:#f92672">import</span> Path
 
 output_dir <span style="color:#f92672">=</span> Path(<span style="color:#e6db74">&#39;nlp_id_checkpoint_2020_10_26&#39;</span>)
 nlp<span style="color:#f92672">.</span>to_disk(output_dir)
-<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Saved model to&#34;</span>, output_dir)
+print(<span style="color:#e6db74">&#34;Saved model to&#34;</span>, output_dir)
 </code></pre></div><p>Apabila kita telah memiliki model yang telah kita latih sebelumnya, untuk memuat ulang dan menggunakan model tersebut dapat dengan cara seperti di bawah ini</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># load existing model </span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># load existing model </span>
 output_dir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;nlp_id_checkpoint_2020_10_26&#39;</span>
-<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Loading from&#34;</span>, output_dir)
+print(<span style="color:#e6db74">&#34;Loading from&#34;</span>, output_dir)
 nlp_updated <span style="color:#f92672">=</span> spacy<span style="color:#f92672">.</span>load(output_dir)
 
 </code></pre></div><p>Pengujian dengan model yang kita muat ulang</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># contoh 1</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># contoh 1</span>
 doc <span style="color:#f92672">=</span> nlp_updated(<span style="color:#e6db74">&#34;Kementerian Perhubungan tidak mewajibkan rapid test COVID-19 untuk perjalanan darat lintas daerah, kecuali untuk tujuan Bali. Termasuk, dalam periode cuti bersama.&#34;</span> )
 
-<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Entities&#34;</span>, [(ent<span style="color:#f92672">.</span>text, ent<span style="color:#f92672">.</span>label_) <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> doc<span style="color:#f92672">.</span>ents])
+print(<span style="color:#e6db74">&#34;Entities&#34;</span>, [(ent<span style="color:#f92672">.</span>text, ent<span style="color:#f92672">.</span>label_) <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> doc<span style="color:#f92672">.</span>ents])
 
 displacy<span style="color:#f92672">.</span>render(doc, style<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ent&#34;</span>)
 
 <span style="color:#75715e"># contoh 2</span>
 doc <span style="color:#f92672">=</span> nlp_updated(<span style="color:#e6db74">&#34;Empat saksi terkait korupsi proyek infrastruktur fiktif yang dikerjakan PT Waskita Karya (Persero) Tbk absen dari panggilan KPK hari ini. Seorang di antaranya mantan Bupati Wakatobi, Hugua.&#34;</span> )
-<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Entities&#34;</span>, [(ent<span style="color:#f92672">.</span>text, ent<span style="color:#f92672">.</span>label_) <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> doc<span style="color:#f92672">.</span>ents])
+print(<span style="color:#e6db74">&#34;Entities&#34;</span>, [(ent<span style="color:#f92672">.</span>text, ent<span style="color:#f92672">.</span>label_) <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> doc<span style="color:#f92672">.</span>ents])
 
 displacy<span style="color:#f92672">.</span>render(doc, style<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ent&#34;</span>)
 </code></pre></div><p>Dengan demikian kita sudah memiliki sebuah model yang dapat digunakan untuk melakukan tugas Ekstraksi dan Pengenalan Entitas khusus untuk teks berbahasa Indonesia.</p>

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yudanta">
 <meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
-<meta name="generator" content="Hugo 0.83.1" />
+<meta name="generator" content="Hugo 0.89.4" />
 <title>Series 3 Exporting LSTM Gender Classification and Serving With Flask</title>
 <link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
 <link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
@@ -26,16 +26,16 @@
  Training LSTM Model for gender classification Serving model with Tensorflow Serving  For the last part of our series, we will learn and deploy our trained model with Flask, so it will attached to your web application built with flask." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-10-12T22:38:16&#43;07:00" />
-<meta property="article:modified_time" content="2020-10-12T22:38:16&#43;07:00" />
+<meta property="article:published_time" content="2020-10-12T22:38:16+07:00" />
+<meta property="article:modified_time" content="2020-10-12T22:38:16+07:00" />
 <meta property="og:see_also" content="https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/" />
 
 
 
 <meta itemprop="name" content="Series 3 Exporting LSTM Gender Classification and Serving With Flask">
 <meta itemprop="description" content="Hello again, so this is the last part of our series about developing gender classification model with deep learning approach. in the previous post we know already how to deploy our model directly into TFServing and run the service inside a docker container, if you did not read the previous series please follow this links:
- Training LSTM Model for gender classification Serving model with Tensorflow Serving  For the last part of our series, we will learn and deploy our trained model with Flask, so it will attached to your web application built with flask."><meta itemprop="datePublished" content="2020-10-12T22:38:16&#43;07:00" />
-<meta itemprop="dateModified" content="2020-10-12T22:38:16&#43;07:00" />
+ Training LSTM Model for gender classification Serving model with Tensorflow Serving  For the last part of our series, we will learn and deploy our trained model with Flask, so it will attached to your web application built with flask."><meta itemprop="datePublished" content="2020-10-12T22:38:16+07:00" />
+<meta itemprop="dateModified" content="2020-10-12T22:38:16+07:00" />
 <meta itemprop="wordCount" content="799">
 <meta itemprop="keywords" content="Tensorflow,Text Classification,NLP,LSTM," />
 <meta name="twitter:card" content="summary"/>
@@ -98,10 +98,10 @@
 </ol>
 <p>For the last part of our series, we will learn and deploy our trained model with Flask, so it will attached to your web application built with flask. first we need to export the trained model.</p>
 <h3 id="exporting-model">Exporting model</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">model<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;gender_lstm_model.h5&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">model<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;gender_lstm_model.h5&#34;</span>)
 </code></pre></div><h3 id="setting-up-docker-environment-for-flask-application">setting up docker environment for flask application</h3>
 <p>Our flask application will be served with docker container, so we need to prepare several files first as shown below</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Kinaras-MBP:FlaskServing kinara$ tree
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Kinaras-MBP:FlaskServing kinara$ tree
 .
 ├── Dockerfile
 ├── app
@@ -116,7 +116,7 @@
 
 <span style="color:#ae81ff">4</span> directories, <span style="color:#ae81ff">11</span> files
 </code></pre></div><p>for docker related files: <code>Dockerfile and docker-compose.yml</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">FROM amd64/python:3.7.6-slim-stretch
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">FROM amd64/python:3.7.6-slim-stretch
 
 RUN apt update --fix-missing
 
@@ -155,7 +155,7 @@ USER root
 RUN pip install -r /home/<span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span>/src/requirements.txt
 
 EXPOSE <span style="color:#ae81ff">9901</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">version: <span style="color:#e6db74">&#39;2&#39;</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">version: <span style="color:#e6db74">&#39;2&#39;</span>
 services:
   tagger:
     container_name: <span style="color:#e6db74">&#39;genderapi&#39;</span>
@@ -170,7 +170,7 @@ services:
       - ENV<span style="color:#f92672">=</span>devel
     command: flask run --host<span style="color:#f92672">=</span>0.0.0.0 --port<span style="color:#f92672">=</span><span style="color:#ae81ff">9901</span>
 </code></pre></div><p>create requirements file: <code>requirements.txt</code></p>
-<pre><code>aniso8601
+<pre tabindex="0"><code>aniso8601
 Flask
 flask-restplus
 Flask-WTF
@@ -184,7 +184,7 @@ termcolor
 tensorflow
 numpy
 </code></pre><p>The main flask application files will be <code>config.py, run.py and __init__.py</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#config.py</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#config.py</span>
 <span style="color:#75715e">#!/usr/bin/env python</span>
 <span style="color:#f92672">import</span> os 
 <span style="color:#f92672">import</span> sys 
@@ -195,19 +195,19 @@ APP_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;G
 BASEDIR <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(__file__))
 
 <span style="color:#75715e"># APP DEBUG</span>
-DEBUG <span style="color:#f92672">=</span> True
-USE_RELOADER <span style="color:#f92672">=</span> False
+DEBUG <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+USE_RELOADER <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
 
 <span style="color:#75715e"># APP SECRET</span>
 SECRET_KEY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;change this with your own secret key&#39;</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#run.py</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#run.py</span>
 <span style="color:#75715e">#!/usr/bin/env python </span>
 <span style="color:#f92672">from</span> app <span style="color:#f92672">import</span> app 
 
 <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
-    app<span style="color:#f92672">.</span>run(host<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;0.0.0.0&#39;</span>, port<span style="color:#f92672">=</span><span style="color:#ae81ff">9901</span>, debug<span style="color:#f92672">=</span>True)
+    app<span style="color:#f92672">.</span>run(host<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;0.0.0.0&#39;</span>, port<span style="color:#f92672">=</span><span style="color:#ae81ff">9901</span>, debug<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </code></pre></div><p>for main Flask application scripts <code>__init__.py</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python </span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python </span>
 <span style="color:#f92672">import</span> os 
 os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;TF_CPP_MIN_LOG_LEVEL&#39;</span>]  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2&#34;</span>
 
@@ -219,23 +219,23 @@ os<span style="color:#f92672">.</span>environ[<span style="color:#e6db74">&#39;T
 
 <span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask, Blueprint, redirect, request, url_for, jsonify, make_response
 
-<span style="color:#f92672">import</span> tensorflow <span style="color:#f92672">as</span> tf
+<span style="color:#f92672">import</span> tensorflow <span style="color:#66d9ef">as</span> tf
 <span style="color:#f92672">from</span> tensorflow.python.keras <span style="color:#f92672">import</span> backend <span style="color:#66d9ef">as</span> k
 <span style="color:#f92672">from</span> tensorflow.keras.models <span style="color:#f92672">import</span> Sequential, load_model
 <span style="color:#f92672">from</span> tensorflow.keras.preprocessing.sequence <span style="color:#f92672">import</span> pad_sequences
-<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 
 <span style="color:#75715e">#!----------------------------------------</span>
 <span style="color:#75715e"># App Config</span>
 <span style="color:#75715e">#!----------------------------------------</span>
-app <span style="color:#f92672">=</span> Flask(__name__, instance_relative_config<span style="color:#f92672">=</span>True)
+app <span style="color:#f92672">=</span> Flask(__name__, instance_relative_config<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 
 <span style="color:#75715e"># load config</span>
 app<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>from_object(<span style="color:#e6db74">&#39;config&#39;</span>)
-app<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>from_pyfile(<span style="color:#e6db74">&#39;application.cfg&#39;</span>, silent<span style="color:#f92672">=</span>True)
+app<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>from_pyfile(<span style="color:#e6db74">&#39;application.cfg&#39;</span>, silent<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 
 <span style="color:#75715e"># default controller </span>
-<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>])
+<span style="color:#a6e22e">@app</span><span style="color:#f92672">.</span>route(<span style="color:#e6db74">&#39;/&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>])
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>():
     response <span style="color:#f92672">=</span> jsonify({
         <span style="color:#e6db74">&#39;msg&#39;</span>: <span style="color:#e6db74">&#39;Gender Prediction Api!&#39;</span>,
@@ -255,7 +255,7 @@ gender_model <span style="color:#f92672">=</span> load_model(<span style="color:
 
 
 <span style="color:#75715e"># our predict endpoint with post method</span>
-<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/predict&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;POST&#39;</span>])
+<span style="color:#a6e22e">@app</span><span style="color:#f92672">.</span>route(<span style="color:#e6db74">&#39;/predict&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;POST&#39;</span>])
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">predict</span>():
     predicted_gender <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;UNK&#39;</span>
 
@@ -291,7 +291,7 @@ gender_model <span style="color:#f92672">=</span> load_model(<span style="color:
             <span style="color:#e6db74">&#39;msg&#39;</span>: <span style="color:#e6db74">&#39;success predict gender&#39;</span>,
             <span style="color:#e6db74">&#39;name&#39;</span>: name,
             <span style="color:#e6db74">&#39;gender&#39;</span>: predicted_gender,
-            <span style="color:#e6db74">&#39;confidence_score&#39;</span>: <span style="color:#e6db74">&#39;{:.2f}%&#39;</span><span style="color:#f92672">.</span>format(conf_score)
+            <span style="color:#e6db74">&#39;confidence_score&#39;</span>: <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{:.2f}</span><span style="color:#e6db74">%&#39;</span><span style="color:#f92672">.</span>format(conf_score)
         })
         response<span style="color:#f92672">.</span>status_code <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
 
@@ -305,23 +305,23 @@ gender_model <span style="color:#f92672">=</span> load_model(<span style="color:
     <span style="color:#66d9ef">return</span> response
 </code></pre></div><p>lastly, we copy characters embedding <code>char_dictionary.json</code> file and exported model <code>gender_lstm_model.h5</code> file under <code>app/model_weight/</code> directory</p>
 <h3 id="run-the-docker">run the docker</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker-compose up --build
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker-compose up --build
 </code></pre></div><p>Our flask application can be accessed from <code>localhost:9901</code></p>
 <h3 id="testing-timee">Testing timee</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl --request POST   --url http://localhost:9901/predict   --header <span style="color:#e6db74">&#39;content-type: application/json&#39;</span>   --data <span style="color:#e6db74">&#39;{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl --request POST   --url http://localhost:9901/predict   --header <span style="color:#e6db74">&#39;content-type: application/json&#39;</span>   --data <span style="color:#e6db74">&#39;{
 </span><span style="color:#e6db74">&#34;name&#34;: &#34;Anda Perdana&#34;
 </span><span style="color:#e6db74">}&#39;</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">{</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">{</span>
   <span style="color:#e6db74">&#34;confidence_score&#34;</span>: <span style="color:#e6db74">&#34;90.79%&#34;</span>,
   <span style="color:#e6db74">&#34;gender&#34;</span>: <span style="color:#e6db74">&#34;Male&#34;</span>,
   <span style="color:#e6db74">&#34;msg&#34;</span>: <span style="color:#e6db74">&#34;success predict gender&#34;</span>,
   <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Anda Perdana&#34;</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><p>another one</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl --request POST   --url http://localhost:9901/predict   --header <span style="color:#e6db74">&#39;content-type: application/json&#39;</span>   --data <span style="color:#e6db74">&#39;{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl --request POST   --url http://localhost:9901/predict   --header <span style="color:#e6db74">&#39;content-type: application/json&#39;</span>   --data <span style="color:#e6db74">&#39;{
 </span><span style="color:#e6db74">&#34;name&#34;: &#34;Charita Utami&#34;
 </span><span style="color:#e6db74">}&#39;</span>
-</code></pre></div><pre><code>{
+</code></pre></div><pre tabindex="0"><code>{
   &quot;confidence_score&quot;: &quot;93.12%&quot;,
   &quot;gender&quot;: &quot;Female&quot;,
   &quot;msg&quot;: &quot;success predict gender&quot;,

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yudanta">
 <meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
-<meta name="generator" content="Hugo 0.83.1" />
+<meta name="generator" content="Hugo 0.89.4" />
 <title>Flask Mongoengine, Multiple Databases With Alias</title>
 <link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
 <link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
@@ -26,15 +26,15 @@
 Now, for accessing multiple database with Flask and Flask-Mongoengine, first define the database connection info and credentials in our flask config file config." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://yudanta.github.io/posts/flask-mongoengine-multiple-databases-with-alias/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-01-11T19:19:08&#43;07:00" />
-<meta property="article:modified_time" content="2019-01-11T19:19:08&#43;07:00" />
+<meta property="article:published_time" content="2019-01-11T19:19:08+07:00" />
+<meta property="article:modified_time" content="2019-01-11T19:19:08+07:00" />
 
 
 
 <meta itemprop="name" content="Flask Mongoengine, Multiple Databases With Alias">
 <meta itemprop="description" content="It&rsquo;s common in some occasions our applications are consuming and storing data from two or more MongoDB databases, and if you are using Mongoengine as your database abstraction you are lucky enough that Mongoengine is capable to accessing multiple database without hassle, refering this documentation: http://docs.mongoengine.org/guide/connecting.html?highlight=alias#multiple-databases, we can connecting to multiple database and using alias or db_alias
-Now, for accessing multiple database with Flask and Flask-Mongoengine, first define the database connection info and credentials in our flask config file config."><meta itemprop="datePublished" content="2019-01-11T19:19:08&#43;07:00" />
-<meta itemprop="dateModified" content="2019-01-11T19:19:08&#43;07:00" />
+Now, for accessing multiple database with Flask and Flask-Mongoengine, first define the database connection info and credentials in our flask config file config."><meta itemprop="datePublished" content="2019-01-11T19:19:08+07:00" />
+<meta itemprop="dateModified" content="2019-01-11T19:19:08+07:00" />
 <meta itemprop="wordCount" content="262">
 <meta itemprop="keywords" content="Flask,MongoEngine,Python," />
 <meta name="twitter:card" content="summary"/>
@@ -88,9 +88,9 @@ Now, for accessing multiple database with Flask and Flask-Mongoengine, first def
         </h2>
     </header>
     <section id="post-body">
-        <p>It&rsquo;s common in some occasions our applications are consuming and storing data from two or more MongoDB databases, and if you are using Mongoengine as your database abstraction you are lucky enough that Mongoengine is capable to accessing multiple database without hassle, refering this documentation: <a href="http://docs.mongoengine.org/guide/connecting.html?highlight=alias#multiple-databases,">http://docs.mongoengine.org/guide/connecting.html?highlight=alias#multiple-databases,</a> we can connecting to multiple database and using alias or <code>db_alias</code></p>
+        <p>It&rsquo;s common in some occasions our applications are consuming and storing data from two or more MongoDB databases, and if you are using Mongoengine as your database abstraction you are lucky enough that Mongoengine is capable to accessing multiple database without hassle, refering this documentation: <a href="http://docs.mongoengine.org/guide/connecting.html?highlight=alias#multiple-databases">http://docs.mongoengine.org/guide/connecting.html?highlight=alias#multiple-databases</a>, we can connecting to multiple database and using alias or <code>db_alias</code></p>
 <p>Now, for accessing multiple database with Flask and Flask-Mongoengine, first define the database connection info and credentials in our flask config file <code>config.py</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pymongo.read_preferences <span style="color:#f92672">import</span> ReadPreference
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pymongo.read_preferences <span style="color:#f92672">import</span> ReadPreference
 
 MONGO_DB_MARS_ALIAS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;mars&#39;</span>
 MONGO_DB_EARTH_ALIAS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;earth&#39;</span>
@@ -115,14 +115,14 @@ MONGODB_SETTINGS <span style="color:#f92672">=</span> [
     }
 ]
 </code></pre></div><p>Set mongo instance in flask <code>__init__.py</code> file</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># ... app is already defined before </span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># ... app is already defined before </span>
 
 <span style="color:#f92672">from</span> flask_mongoengine <span style="color:#f92672">import</span> MongoEngine 
 
 MongoDB <span style="color:#f92672">=</span> MongoEngine()
 MongoDB<span style="color:#f92672">.</span>init_app(app)
 </code></pre></div><p>Then define our model class and set alias in meta field with <code>db_alias</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime
 <span style="color:#f92672">from</span> app <span style="color:#f92672">import</span> MongoDB
 <span style="color:#f92672">from</span> config <span style="color:#f92672">import</span> MONGO_DB_MARS_ALIAS, MONGO_DB_EARTH_ALIAS
 

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yudanta">
 <meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
-<meta name="generator" content="Hugo 0.83.1" />
+<meta name="generator" content="Hugo 0.89.4" />
 <title>Simple Asymetric Encryption With Python</title>
 <link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
 <link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
@@ -26,15 +26,15 @@
 The concept is very simmple, both parties are generating two kind of keys, one is private and one is public." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://yudanta.github.io/posts/simple-asymetric-encryption-with-python/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-09-14T12:55:59&#43;07:00" />
-<meta property="article:modified_time" content="2020-09-14T12:55:59&#43;07:00" />
+<meta property="article:published_time" content="2020-09-14T12:55:59+07:00" />
+<meta property="article:modified_time" content="2020-09-14T12:55:59+07:00" />
 
 
 
 <meta itemprop="name" content="Simple Asymetric Encryption With Python">
 <meta itemprop="description" content="So, first of all, this is just a snippet for those who courious and wants to know about asymetric encryption using private and public key to securing your data or communication. As we know, end to end encryption is very popular right now such as in your private messaging application (Whatsapp or Telegram), it is non deniable, one of our way to securing our communication in digital era.
-The concept is very simmple, both parties are generating two kind of keys, one is private and one is public."><meta itemprop="datePublished" content="2020-09-14T12:55:59&#43;07:00" />
-<meta itemprop="dateModified" content="2020-09-14T12:55:59&#43;07:00" />
+The concept is very simmple, both parties are generating two kind of keys, one is private and one is public."><meta itemprop="datePublished" content="2020-09-14T12:55:59+07:00" />
+<meta itemprop="dateModified" content="2020-09-14T12:55:59+07:00" />
 <meta itemprop="wordCount" content="545">
 <meta itemprop="keywords" content="Python,Asymetric Encryption," />
 <meta name="twitter:card" content="summary"/>
@@ -92,11 +92,11 @@ The concept is very simmple, both parties are generating two kind of keys, one i
 <ol>
 <li>
 <p>Installing <code>cryptography</code> library</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install cryptography
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install cryptography
 </code></pre></div></li>
 <li>
 <p>Generating keys (private and public)</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"> <span style="color:#75715e">#import necessary package</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"> <span style="color:#75715e">#import necessary package</span>
  <span style="color:#f92672">import</span> cryptography
  <span style="color:#f92672">from</span> cryptography.hazmat.backends <span style="color:#f92672">import</span> default_backend
  <span style="color:#f92672">from</span> cryptography.hazmat.primitives.asymmetric <span style="color:#f92672">import</span> rsa
@@ -133,7 +133,7 @@ The concept is very simmple, both parties are generating two kind of keys, one i
 </li>
 <li>
 <p>Encrypting plain text with public key</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># to encrypt plain text we need to open public key and hash text with this public key</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># to encrypt plain text we need to open public key and hash text with this public key</span>
 <span style="color:#75715e"># imports</span>
 <span style="color:#f92672">import</span> cryptography
 <span style="color:#f92672">from</span> cryptography.hazmat.backends <span style="color:#f92672">import</span> default_backend
@@ -159,7 +159,7 @@ public_key <span style="color:#f92672">=</span> serialization<span style="color:
      padding<span style="color:#f92672">.</span>OAEP(
          mgf<span style="color:#f92672">=</span>padding<span style="color:#f92672">.</span>MGF1(algorithm<span style="color:#f92672">=</span>hashes<span style="color:#f92672">.</span>SHA256()),
          algorithm<span style="color:#f92672">=</span>hashes<span style="color:#f92672">.</span>SHA256(),
-         label<span style="color:#f92672">=</span>None
+         label<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>
          )
      )
 
@@ -167,7 +167,7 @@ public_key <span style="color:#f92672">=</span> serialization<span style="color:
  <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;encrypted_content.txt&#34;</span>, <span style="color:#e6db74">&#34;wb&#34;</span>) <span style="color:#66d9ef">as</span> f:
      f<span style="color:#f92672">.</span>write(encrypted)
 </code></pre></div><p>there you go, now you have your message encrypted and stored into a file called <code>encrypted_content.txt</code> and if we try to read the content</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat encrypted_content.txt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat encrypted_content.txt
 -------------------------
 
  bx,ˆ˝2?ÉËæ˙êõè·¥Ë°cŒ‰ ÉÒx&amp;P&gt;<span style="color:#f92672">]</span>§x|¥<span style="color:#f92672">]</span>‡¶<span style="color:#e6db74">&#39;6%¬ë„á’&#39;</span>»≥<span style="color:#f92672">=</span>ùì4i‚8aöÒ‘3ë∞
@@ -177,14 +177,14 @@ public_key <span style="color:#f92672">=</span> serialization<span style="color:
 <li>
 <p>Decrypting encrypted data to plain format with private key</p>
 <p>Now, let say if someone give you an encrypted message which are encrypted with your own public key, supposed to be you are the only one who can reversed it back because you have the private key right? then how to reverse the encrypted message? you can follow this script below</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># ... import packages same as above</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># ... import packages same as above</span>
 
 <span style="color:#75715e"># load private key file </span>
 key_file <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#39;private_key.pem&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>)
 
 private_key <span style="color:#f92672">=</span> serialization<span style="color:#f92672">.</span>load_pem_private_key(
     key_file<span style="color:#f92672">.</span>read(),
-    password<span style="color:#f92672">=</span>None,
+    password<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
     backend<span style="color:#f92672">=</span>default_backend()
     )
 
@@ -197,11 +197,11 @@ plain_text <span style="color:#f92672">=</span> private_key<span style="color:#f
     padding<span style="color:#f92672">.</span>OAEP(
         mgf<span style="color:#f92672">=</span>padding<span style="color:#f92672">.</span>MGF1(algorithm<span style="color:#f92672">=</span>hashes<span style="color:#f92672">.</span>SHA256()),
         algorithm<span style="color:#f92672">=</span>hashes<span style="color:#f92672">.</span>SHA256(),
-        label<span style="color:#f92672">=</span>None
+        label<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>
      )
  )
 
- <span style="color:#66d9ef">print</span>(plain_text)
+ print(plain_text)
  <span style="color:#75715e">## this should produce your plain non encrypted text</span>
  <span style="color:#75715e">#Only you can read this...</span>
 </code></pre></div></li>

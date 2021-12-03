@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yudanta">
 <meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
-<meta name="generator" content="Hugo 0.83.1" />
+<meta name="generator" content="Hugo 0.89.4" />
 <title>How I Dockerize My Flask App With Pypy and Supervisord</title>
 <link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
 <link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
@@ -26,15 +26,15 @@
 In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler), and use Gevent to handle more concurrency." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://yudanta.github.io/posts/how-i-dockerize-my-flask-app-with-pypy-and-supervisord/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-12-19T00:21:38&#43;07:00" />
-<meta property="article:modified_time" content="2018-12-19T00:21:38&#43;07:00" />
+<meta property="article:published_time" content="2018-12-19T00:21:38+07:00" />
+<meta property="article:modified_time" content="2018-12-19T00:21:38+07:00" />
 
 
 
 <meta itemprop="name" content="How I Dockerize My Flask App With Pypy and Supervisord">
 <meta itemprop="description" content="There are bunch of ways how to deploy your Flask application, it can be directly with Flask&rsquo;s built in http server or use UWSGI as gateway interface, with or without Nginx as your HTTP frontend. People also either run Flask application directly on their machine or as a container with docker.
-In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler), and use Gevent to handle more concurrency."><meta itemprop="datePublished" content="2018-12-19T00:21:38&#43;07:00" />
-<meta itemprop="dateModified" content="2018-12-19T00:21:38&#43;07:00" />
+In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler), and use Gevent to handle more concurrency."><meta itemprop="datePublished" content="2018-12-19T00:21:38+07:00" />
+<meta itemprop="dateModified" content="2018-12-19T00:21:38+07:00" />
 <meta itemprop="wordCount" content="707">
 <meta itemprop="keywords" content="Python,Flask,Engineering," />
 <meta name="twitter:card" content="summary"/>
@@ -92,7 +92,7 @@ In this post, I will share the way I deploy my Flask application. Lately, I pref
 <p>In this post, I will share the way I deploy my Flask application. Lately, I prefer to use PyPy rather than using pure Python to achieve more speed processing time (thanks to its JIT Compiler), and use Gevent to handle more concurrency.</p>
 <p>*FYI, In my current office, we rely much on Docker as the application container to ease developers with their development environment.</p>
 <p>Here is my Flask application structure. This is the basic directory and file structure as an application boilerplate.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Kinaras-MacBook-Pro:flask-pypy-docker kinara$ tree .
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Kinaras-MacBook-Pro:flask-pypy-docker kinara$ tree .
 .
 ├── Dockerfile
 ├── README.md
@@ -110,21 +110,21 @@ In this post, I will share the way I deploy my Flask application. Lately, I pref
     └── nginx.ini
 </code></pre></div><p><strong>Flask Minimum Application</strong></p>
 <p>For the application, we can only focus on <code>app/</code> directory and all the configs will be in <code>config.py</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#filename:app/__init__.py</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#filename:app/__init__.py</span>
 <span style="color:#75715e">#!/usr/bin/env python </span>
 
 <span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime
 <span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask, jsonify, url_for
 
 <span style="color:#75715e"># app </span>
-app <span style="color:#f92672">=</span> Flask(__name__, instance_relative_config<span style="color:#f92672">=</span>True)
+app <span style="color:#f92672">=</span> Flask(__name__, instance_relative_config<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 
 <span style="color:#75715e"># load config </span>
 app<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>from_object(<span style="color:#e6db74">&#39;config&#39;</span>)
-app<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>from_pyfile(<span style="color:#e6db74">&#39;application.cfg&#39;</span>, silent<span style="color:#f92672">=</span>True)
+app<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span>from_pyfile(<span style="color:#e6db74">&#39;application.cfg&#39;</span>, silent<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 
 <span style="color:#75715e"># add default route </span>
-<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>])
+<span style="color:#a6e22e">@app</span><span style="color:#f92672">.</span>route(<span style="color:#e6db74">&#39;/&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>])
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>():
     response <span style="color:#f92672">=</span> jsonify({
         <span style="color:#e6db74">&#39;msg&#39;</span>: <span style="color:#e6db74">&#39;Lavender&#39;</span>,
@@ -134,7 +134,7 @@ app<span style="color:#f92672">.</span>config<span style="color:#f92672">.</span
     response<span style="color:#f92672">.</span>status_code <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
     <span style="color:#66d9ef">return</span> response
 </code></pre></div><p>Okay, then we focus on <code>Dockerfile</code>  and <code>docker-compose.yml</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># filename: Dockerfile</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># filename: Dockerfile</span>
 
 from pypy:3-6-slim <span style="color:#75715e"># get pypy image from dockerhub</span>
 
@@ -180,7 +180,7 @@ EXPOSE <span style="color:#ae81ff">8001</span>
 <span style="color:#75715e"># start supervisord</span>
 CMD <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;supervisord&#34;</span>, <span style="color:#e6db74">&#34;--nodaemon&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span>, <span style="color:#e6db74">&#34;/etc/supervisor/supervisord.conf&#34;</span><span style="color:#f92672">]</span>
 </code></pre></div><p>Also, during development process, and to ease the developers, we also provide docker-compose file with auto reload flask application, so all changes in our application code will also trigger the application to reload. So, there&rsquo;s no need to docker build and docker run in every change.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#filename: docker-compose.yml</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#filename: docker-compose.yml</span>
 version: <span style="color:#e6db74">&#39;3&#39;</span>
 services: 
   web:
@@ -197,11 +197,11 @@ services:
     command: flask run --host<span style="color:#f92672">=</span>0.0.0.0 --port<span style="color:#f92672">=</span><span style="color:#ae81ff">8001</span> <span style="color:#75715e"># this is where the magic of auto reload</span>
 </code></pre></div><p>We&rsquo;ve already had the application&rsquo;s files and the dockerfile, the rest are supervisor files to run gunicorn + gevent and nginx. Yes, we manage nginx + application service with supervisord.</p>
 <p>First, here is the bash script to run our Flask application. The script below will create a socket application and will execute gevent as application`s worker.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#filename: flask-gunicorn-gevent.sh</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#filename: flask-gunicorn-gevent.sh</span>
 <span style="color:#75715e">#!/bin/sh</span>
 gunicorn --name <span style="color:#e6db74">&#39;Lavender - Gunicorn&#39;</span> --user lavender --chdir ./ --bind unix:/home/lavender/lavender.sock app:app -k gevent --worker-connections <span style="color:#ae81ff">1001</span> --workers <span style="color:#ae81ff">4</span>
 </code></pre></div><p>Below, is our Nginx configuration file as a proxy pass to our application socket</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#75715e">#filename: lavender.conf
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#75715e">#filename: lavender.conf
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">server</span> {
         <span style="color:#f92672">server_name</span> <span style="color:#e6db74">_</span>;
         <span style="color:#f92672">listen</span> <span style="color:#ae81ff">8001</span>;
@@ -216,7 +216,7 @@ gunicorn --name <span style="color:#e6db74">&#39;Lavender - Gunicorn&#39;</span>
         }
 }
 </code></pre></div><p>to manage Nginx and Gunicorn process, we use supervisord.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#75715e">;flename: lavender.ini</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#75715e">;flename: lavender.ini</span>
 <span style="color:#66d9ef">[program:lavender]</span>
 <span style="color:#a6e22e">command</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">/home/lavender/src/flask-gunicorn-gevent.sh </span>
 <span style="color:#a6e22e">directory</span><span style="color:#f92672">=</span><span style="color:#e6db74">/home/lavender/src/</span>
@@ -229,7 +229,7 @@ gunicorn --name <span style="color:#e6db74">&#39;Lavender - Gunicorn&#39;</span>
 <span style="color:#a6e22e">stderr_logfile</span><span style="color:#f92672">=</span><span style="color:#e6db74">/home/lavender/log/lavender.log</span>
 <span style="color:#a6e22e">stderr_logfile_maxbytes</span><span style="color:#f92672">=</span><span style="color:#e6db74">5MB</span>
 <span style="color:#a6e22e">stderr_logfile_backups</span><span style="color:#f92672">=</span><span style="color:#e6db74">5</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#75715e">;filename: nginx.ini</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#75715e">;filename: nginx.ini</span>
 <span style="color:#66d9ef">[program:nginx]</span>
 <span style="color:#a6e22e">command</span><span style="color:#f92672">=</span><span style="color:#e6db74">/usr/sbin/nginx -g &#34;daemon off;&#34;</span>
 <span style="color:#a6e22e">autostart</span><span style="color:#f92672">=</span><span style="color:#e6db74">true</span>
@@ -242,12 +242,12 @@ gunicorn --name <span style="color:#e6db74">&#39;Lavender - Gunicorn&#39;</span>
 <span style="color:#a6e22e">stderr_logfile_backups</span><span style="color:#f92672">=</span><span style="color:#e6db74">5</span>
 </code></pre></div><p>To run our application, we can use either docker-compose or Docker build, then followed with docker run image.</p>
 <p>To run with docker compose, it is just simple by typing <code>docker-compose up</code> in the root directory or building with docker image</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker-compose up --build 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker-compose up --build 
 <span style="color:#75715e"># or</span>
 $ docker build -t lavender
 $ docker run lavender
 </code></pre></div><p>to access our application just <code>curl localhost:8001</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#960050;background-color:#1e0010">curl</span> <span style="color:#960050;background-color:#1e0010">localhost:</span><span style="color:#ae81ff">8001</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#960050;background-color:#1e0010">curl</span> <span style="color:#960050;background-color:#1e0010">localhost:</span><span style="color:#ae81ff">8001</span>
 {
   <span style="color:#f92672">&#34;msg&#34;</span>: <span style="color:#e6db74">&#34;Lavender&#34;</span>,
   <span style="color:#f92672">&#34;systime&#34;</span>: <span style="color:#ae81ff">1545639346</span>

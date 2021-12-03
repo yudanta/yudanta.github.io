@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Yudanta">
 <meta name="description" content="echo &#39;to make it immortal&#39; &gt; blog/journey_{date}.md">
-<meta name="generator" content="Hugo 0.83.1" />
+<meta name="generator" content="Hugo 0.89.4" />
 <title>Deploy Spacy Ner With Fast Api</title>
 <link rel="shortcut icon" href="https://yudanta.github.io/images/favicon.ico">
 <link rel="stylesheet" href="https://yudanta.github.io/css/style.css">
@@ -25,15 +25,15 @@
 <meta property="og:description" content="In my previous post here: https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/, I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: https://fastapi." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://yudanta.github.io/posts/deploy-spacy-ner-with-fast-api/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-01-28T19:25:46&#43;07:00" />
-<meta property="article:modified_time" content="2021-01-28T19:25:46&#43;07:00" />
+<meta property="article:published_time" content="2021-01-28T19:25:46+07:00" />
+<meta property="article:modified_time" content="2021-01-28T19:25:46+07:00" />
 <meta property="og:see_also" content="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-3-exporting-lstm-gender-classification-and-serving-with-flask/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-2-exporting-lstm-gender-classification-and-serving-with-tensorflowserving/" /><meta property="og:see_also" content="https://yudanta.github.io/posts/series-1-lstm-gender-classification-tensorflow/" />
 
 
 
 <meta itemprop="name" content="Deploy Spacy Ner With Fast Api">
-<meta itemprop="description" content="In my previous post here: https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/, I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: https://fastapi."><meta itemprop="datePublished" content="2021-01-28T19:25:46&#43;07:00" />
-<meta itemprop="dateModified" content="2021-01-28T19:25:46&#43;07:00" />
+<meta itemprop="description" content="In my previous post here: https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/, I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: https://fastapi."><meta itemprop="datePublished" content="2021-01-28T19:25:46+07:00" />
+<meta itemprop="dateModified" content="2021-01-28T19:25:46+07:00" />
 <meta itemprop="wordCount" content="433">
 <meta itemprop="keywords" content="SpaCy,NER,NLP,SpaCy," />
 <meta name="twitter:card" content="summary"/>
@@ -88,10 +88,10 @@
         </h2>
     </header>
     <section id="post-body">
-        <p>In my previous post here: <a href="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/,">https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/,</a> I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: <a href="https://fastapi.tiangolo.com/tutorial/">https://fastapi.tiangolo.com/tutorial/</a>.</p>
+        <p>In my previous post here: <a href="https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/">https://yudanta.github.io/posts/train-an-indonesian-ner-from-a-blank-spacy-model/</a>, I shared about how to train simple Indonesian NER model with SpaCy. The detail of training process can be found in that article. In this post, we will focus on how to deploy the model as a REST API with FastAPI, so the users can query to our NER model via REST API. However, in this tutorial, will focus on how to create simple FastAPI project and load pre-trained NER model, if you are not familiar with FastAPI yet, please go to the FastAPI documentation site here: <a href="https://fastapi.tiangolo.com/tutorial/">https://fastapi.tiangolo.com/tutorial/</a>.</p>
 <p>First, I already prepare the trained model here in this directory <code>nlp_models/nlp_id_checkpoint_2021-01-12</code>, for the example, so you don&rsquo;t have to train the model, except you are have your own model previously or more datasets then use your own model.</p>
 <p>We structured the FastAPI model as below:</p>
-<pre><code>├── README.md
+<pre tabindex="0"><code>├── README.md
 ├── app
 │   ├── __init__.py
 │   ├── apis
@@ -112,13 +112,13 @@
 │   └── nlp_id_checkpoint_2021-01-12
 └── requirements.txt
 </code></pre><p>To load pre-trained spacy model in ```main.py``</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pathlib <span style="color:#f92672">import</span> Path
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pathlib <span style="color:#f92672">import</span> Path
 <span style="color:#f92672">import</span> spacy
 
 model_dir <span style="color:#f92672">=</span> Path(<span style="color:#e6db74">&#39;nlp_models/nlp_id_checkpoint_2021-01-12&#39;</span>)
 id_nlp <span style="color:#f92672">=</span> spacy<span style="color:#f92672">.</span>load(model_dir)
 </code></pre></div><p>I add <code>ner.py</code> under <code>app/apis/nlp</code> for handling query from users to SpaCy model</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> List, Dict
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> List, Dict
 <span style="color:#f92672">from</span> ...main <span style="color:#f92672">import</span> id_nlp
 
 
@@ -126,7 +126,7 @@ id_nlp <span style="color:#f92672">=</span> spacy<span style="color:#f92672">.</
     doc <span style="color:#f92672">=</span> id_nlp(sentence)
     <span style="color:#66d9ef">return</span> [(ent<span style="color:#f92672">.</span>text, ent<span style="color:#f92672">.</span>label_) <span style="color:#66d9ef">for</span> ent <span style="color:#f92672">in</span> doc<span style="color:#f92672">.</span>ents]
 </code></pre></div><p>and for handling the http route/request, the script for http routing is in <code>nlp.py</code> file</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> Optional
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> Optional
 <span style="color:#f92672">from</span> fastapi <span style="color:#f92672">import</span> APIRouter
 <span style="color:#f92672">from</span> pydantic <span style="color:#f92672">import</span> BaseModel
 
@@ -144,30 +144,30 @@ router <span style="color:#f92672">=</span> APIRouter(
     }
 )
 
-<span style="color:#a6e22e">@router.post</span>(<span style="color:#e6db74">&#39;/ner&#39;</span>)
-async <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">api_ner</span>(query: NerQuery):
+<span style="color:#a6e22e">@router</span><span style="color:#f92672">.</span>post(<span style="color:#e6db74">&#39;/ner&#39;</span>)
+<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">api_ner</span>(query: NerQuery):
     result <span style="color:#f92672">=</span> get_entities(query<span style="color:#f92672">.</span>sentence)
     <span style="color:#66d9ef">return</span> result
 
 </code></pre></div><p>Lastly, we add the router to the <code>main.py</code> file with <code>include_router</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">app <span style="color:#f92672">=</span> FastAPI()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">app <span style="color:#f92672">=</span> FastAPI()
 
 <span style="color:#f92672">from</span> .routes <span style="color:#f92672">import</span> nlp
 
 app<span style="color:#f92672">.</span>include_router(nlp<span style="color:#f92672">.</span>router)
 </code></pre></div><p>to run the project with uvicorn:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">uvicorn app.main:app --reload
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">uvicorn app.main:app --reload
 </code></pre></div><p>wait a moments, some time required for loading SpaCy model.</p>
 <p>You can access the generated documentation here: http://localhost:8000/docs#/nlp/api_ner_nlp_id_ner_post, try to query directly from the swagger or using curl like below</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -X POST <span style="color:#e6db74">&#34;http://localhost:8000/nlp/id/ner&#34;</span> -H  <span style="color:#e6db74">&#34;accept: application/json&#34;</span> -H  <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -d <span style="color:#e6db74">&#34;{\&#34;sentence\&#34;:\&#34;Bekas Anggota BPK Rizal Djalil Didakwa Menerima Suap Rp 1 Miliar.\&#34;}&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -X POST <span style="color:#e6db74">&#34;http://localhost:8000/nlp/id/ner&#34;</span> -H  <span style="color:#e6db74">&#34;accept: application/json&#34;</span> -H  <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -d <span style="color:#e6db74">&#34;{\&#34;sentence\&#34;:\&#34;Bekas Anggota BPK Rizal Djalil Didakwa Menerima Suap Rp 1 Miliar.\&#34;}&#34;</span>
 </code></pre></div><p>result</p>
-<pre><code>[
+<pre tabindex="0"><code>[
   [
     &quot;Rizal Djalil&quot;,
     &quot;PERSON&quot;
   ]
 ]
-</code></pre><p>the complete codes for this project can be found on this repository: <a href="https://github.com/yudanta/id-ner-spacy-fast-api,">https://github.com/yudanta/id-ner-spacy-fast-api,</a> maybe, later I will add docker file for this project and maybe provide an online demo (but not promise :D)</p>
+</code></pre><p>the complete codes for this project can be found on this repository: <a href="https://github.com/yudanta/id-ner-spacy-fast-api">https://github.com/yudanta/id-ner-spacy-fast-api</a>, maybe, later I will add docker file for this project and maybe provide an online demo (but not promise :D)</p>
 
     </section>
 </article>
